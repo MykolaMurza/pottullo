@@ -1,20 +1,21 @@
 package ua.mykolamurza.pottullo.command;
 
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import ua.mykolamurza.pottullo.Pottullo;
-import ua.mykolamurza.pottullo.Storage;
+import ua.mykolamurza.pottullo.PrivatizationZone;
 
 /**
  * @author MykolaMurza
  */
-public class AcceptPrivatizationZoneCommand implements CommandExecutor {
+public class InfoPrivatizationZoneCommand implements CommandExecutor {
     private final Pottullo plugin;
 
-    public AcceptPrivatizationZoneCommand(Pottullo plugin) {
+    public InfoPrivatizationZoneCommand(Pottullo plugin) {
         this.plugin = plugin;
     }
 
@@ -26,20 +27,15 @@ public class AcceptPrivatizationZoneCommand implements CommandExecutor {
             return true;
         }
 
-        if (Storage.contains(player)) {
-            try {
-                boolean isSuccess = plugin.getRegionConfig().savePrivatizationZone(player, Storage.get(player));
-                if (isSuccess) {
-                    player.sendMessage("You accepted your new private territory.");
-                    Storage.delete(player);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                player.sendMessage("Something went wrong.");
-            }
+        Location location = player.getLocation();
+        PrivatizationZone zone = plugin.getRegionConfig().getPrivatizationZoneAt(location);
+
+        if (zone != null) {
+            player.sendMessage("You are in the " + zone.getOwner() + "'s privatization zone!");
         } else {
-            player.sendMessage("Please, put privatization block before.");
+            player.sendMessage("There are no privatization zones at your current location.");
         }
+
         return true;
     }
 }
