@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import ua.mykolamurza.pottullo.command.AcceptPrivatizationZoneCommand;
 import ua.mykolamurza.pottullo.command.InfoPrivatizationZoneCommand;
+import ua.mykolamurza.pottullo.command.RemovePrivatizationZoneCommand;
 import ua.mykolamurza.pottullo.config.RegionConfig;
 import ua.mykolamurza.pottullo.handler.LapisLazuliHandler;
 
@@ -23,6 +24,7 @@ public final class Pottullo extends JavaPlugin {
         // Commands
         Objects.requireNonNull(getCommand("accept")).setExecutor(new AcceptPrivatizationZoneCommand(this));
         Objects.requireNonNull(getCommand("info")).setExecutor(new InfoPrivatizationZoneCommand(this));
+        Objects.requireNonNull(getCommand("remove")).setExecutor(new RemovePrivatizationZoneCommand(this));
 
         // Handlers
         getServer().getPluginManager().registerEvents(

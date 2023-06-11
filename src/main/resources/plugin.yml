@@ -10,3 +10,6 @@ commands:
   info:
     description: Get information on the current privatized zone.
     usage: /info
+  remove:
+    description: Remove your privatization zone (doesn't destroy block).
+    usage: /remove
