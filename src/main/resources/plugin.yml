@@ -1,0 +1,10 @@
+name: pottullo
+version: '${project.version}'
+main: ua.mykolamurza.pottullo.Pottullo
+api-version: 1.19
+depend: [WorldGuard, WorldEdit]
+commands:
+  accept:
+    description: Accept your selected zone.
+    usage: Use /accept exactly after placing lapis lazuli ore.
+    aliases: acc
