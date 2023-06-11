@@ -9,6 +9,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import ua.mykolamurza.pottullo.PrivatizationZone;
+import ua.mykolamurza.pottullo.Storage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class LapisLazuliHandler implements Listener {
             this.blocks = List.of(Material.LAPIS_ORE, Material.DEEPSLATE_LAPIS_ORE);
         } else {
             this.blocks = convert(blocks).stream().map(Material::getMaterial).toList();
+            Bukkit.getLogger().info("Pottullo set as target blocks next list: " + this.blocks);
         }
     }
 
@@ -39,6 +41,7 @@ public class LapisLazuliHandler implements Listener {
                 zone.getFromX() + COORDS_DELIMITER + zone.getFromY() + COORDS_DELIMITER + zone.getFromZ(),
                 zone.getToX() + COORDS_DELIMITER + zone.getToY() + COORDS_DELIMITER + zone.getToZ()
         ));
+        Storage.add(player, zone);
         Bukkit.getLogger().info("Privatization is in process.");
     }
 
