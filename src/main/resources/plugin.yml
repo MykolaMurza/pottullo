@@ -4,12 +4,20 @@ main: ua.mykolamurza.pottullo.Pottullo
 api-version: 1.19
 commands:
   accept:
-    description: Accept your selected zone.
-    usage: /accept
+    description: Accept your selected zone as private zone.
+    usage: 'Usage: /accept'
     aliases: acc
   info:
-    description: Get information on the current privatized zone.
-    usage: /info
+    description: Get information on the current private zone.
+    usage: 'Usage: /info'
   remove:
-    description: Remove your privatization zone (doesn't destroy block).
-    usage: /remove
+    description: Remove your private zone (doesn't destroy block).
+    usage: 'Usage: /remove'
+  addresident:
+    description: Adds a resident to your private zone.
+    usage: 'Usage: /<command> <playerName>'
+    aliases: ares
+  removeresident:
+    description: Removes a resident from your private zone.
+    usage: 'Usage: /<command> <playerName>'
+    aliases: rres

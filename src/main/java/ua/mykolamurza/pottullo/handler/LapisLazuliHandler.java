@@ -18,6 +18,7 @@ import java.util.List;
 
 import static ua.mykolamurza.pottullo.config.Vars.COORDS_DELIMITER;
 import static ua.mykolamurza.pottullo.config.Vars.PRIVATIZATION_DISTANCE;
+import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.isItPlayersPrivatizationBlock;
 
 /**
  * @author MykolaMurza
@@ -60,7 +61,7 @@ public class LapisLazuliHandler implements Listener {
         Block block = event.getBlock();
         Player player = event.getPlayer();
 
-        if (blocks.contains(block.getType()) && isItPlayersPrivatizationBlock(player, block)) {
+        if (blocks.contains(block.getType()) && isItPlayersPrivatizationBlock(player, block, plugin)) {
             plugin.getRegionConfig().removePrivatizationZone(player);
         }
     }
@@ -75,19 +76,5 @@ public class LapisLazuliHandler implements Listener {
         }
 
         return result;
-    }
-
-    private boolean isItPlayersPrivatizationBlock(Player player, Block block) {
-        PrivatizationZone zone = plugin.getRegionConfig().getPrivatizationZone(player);
-
-        if (zone == null) {
-            return false;
-        }
-
-        return zone.getWorld().equals(block.getWorld().getName())
-                && zone.getOwner().equals(player.getName())
-                && block.getX() == zone.getFromX() + PRIVATIZATION_DISTANCE
-                && block.getY() == zone.getFromY() + PRIVATIZATION_DISTANCE
-                && block.getZ() == zone.getFromZ() + PRIVATIZATION_DISTANCE;
     }
 }

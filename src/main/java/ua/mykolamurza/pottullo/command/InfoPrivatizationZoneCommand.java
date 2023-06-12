@@ -31,9 +31,9 @@ public class InfoPrivatizationZoneCommand implements CommandExecutor {
         PrivatizationZone zone = plugin.getRegionConfig().getPrivatizationZoneAt(location);
 
         if (zone != null) {
-            player.sendMessage("You are in the " + zone.getOwner() + "'s privatization zone!");
+            player.sendMessage("You are in the " + zone.getOwner() + "'s private zone!");
         } else {
-            player.sendMessage("There are no privatization zones at your current location.");
+            player.sendMessage("There are no private zones at your current location.");
         }
 
         return true;

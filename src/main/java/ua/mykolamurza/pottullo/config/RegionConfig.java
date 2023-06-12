@@ -11,6 +11,7 @@ import ua.mykolamurza.pottullo.PrivatizationZone;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * @author MykolaMurza
@@ -37,33 +38,48 @@ public class RegionConfig {
         String path = player.getUniqueId().toString();
 
         if (config.contains(path)) {
-            player.sendMessage("You can only have one privatization zone!");
+            player.sendMessage("You can only have one private zone!");
             return false;
         }
 
         if (doesCollideWithExistingPrivatizationZones(zone)) {
-            player.sendMessage("You cannot create a privatization zone that overlaps an existing region.");
+            player.sendMessage("You cannot create a private zone that overlaps an existing region.");
             return false;
         }
 
         config.set(path + ".world", zone.getWorld());
         config.set(path + ".owner", zone.getOwner());
         config.set(path + ".from.x", zone.getFromX());
-        config.set(path + ".from.y", zone.getFromY());
-        config.set(path + ".from.z", zone.getFromZ());
         config.set(path + ".to.x", zone.getToX());
+        config.set(path + ".from.y", zone.getFromY());
         config.set(path + ".to.y", zone.getToY());
+        config.set(path + ".from.z", zone.getFromZ());
         config.set(path + ".to.z", zone.getToZ());
+        config.set(path + ".to.z", zone.getToZ());
+        config.set(path + ".residents", new ArrayList<>());
 
         try {
             config.save(zonesFile);
         } catch (IOException e) {
-            plugin.getLogger().severe("Could not save privatization zones data to file!");
+            plugin.getLogger().severe("Could not save private zones data to file!");
             e.printStackTrace();
             return false;
         }
 
         return true;
+    }
+
+    public void updateResidentsPrivatizationZone(Player player, PrivatizationZone zone) {
+        String path = player.getUniqueId().toString();
+
+        config.set(path + ".residents", zone.getResidents());
+
+        try {
+            config.save(zonesFile);
+        } catch (IOException e) {
+            plugin.getLogger().severe("Could not save private zones data to file!");
+            e.printStackTrace();
+        }
     }
 
     public PrivatizationZone getPrivatizationZone(Player player) {
@@ -76,7 +92,8 @@ public class RegionConfig {
         return new PrivatizationZone(config.getString(path + ".world"), config.getString(path + ".owner"),
                 config.getInt(path + ".from.x"), config.getInt(path + ".to.x"),
                 config.getInt(path + ".from.y"), config.getInt(path + ".to.y"),
-                config.getInt(path + ".from.z"), config.getInt(path + ".to.z")
+                config.getInt(path + ".from.z"), config.getInt(path + ".to.z"),
+                config.getStringList(path + ".residents")
         );
     }
 
@@ -119,7 +136,7 @@ public class RegionConfig {
             try {
                 config.save(zonesFile);
             } catch (IOException e) {
-                plugin.getLogger().severe("Could not save privatization zones data to file!");
+                plugin.getLogger().severe("Could not save private zones data to file!");
                 e.printStackTrace();
             }
         }
