@@ -29,13 +29,18 @@ public class AddResidentPrivatizationZoneCommand implements CommandExecutor {
             return false;
         }
 
+        String residentName = arguments[0];
+        if (sender.getName().equals(residentName)) {
+            player.sendMessage("You can't add or remove yourself as resident of your own private zone.");
+            return true;
+        }
+
         PrivatizationZone zone = plugin.getRegionConfig().getPrivatizationZone(player);
         if (zone == null) {
             player.sendMessage("You do not own a private zone.");
             return true;
         }
 
-        String residentName = arguments[0];
         OfflinePlayer resident = Bukkit.getOfflinePlayer(residentName);
         if (zone.getResidents().contains(resident.getUniqueId().toString())) {
             player.sendMessage(residentName + " is already resident of your private zone.");
