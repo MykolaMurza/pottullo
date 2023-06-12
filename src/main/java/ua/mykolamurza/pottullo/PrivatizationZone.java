@@ -1,7 +1,5 @@
 package ua.mykolamurza.pottullo;
 
-import org.bukkit.Bukkit;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -103,7 +101,6 @@ public class PrivatizationZone {
     }
 
     public List<String> getResidents() {
-        Bukkit.getLogger().info(residents.toString());
         return residents != null ? residents : new ArrayList<>();
     }
 

@@ -31,7 +31,7 @@ public class RemoveResidentPrivatizationZoneCommand implements CommandExecutor {
 
         String residentName = arguments[0];
         if (sender.getName().equals(residentName)) {
-            player.sendMessage("You can't add or remove yourself as resident of your own private zone.");
+            player.sendMessage("You can't add or remove yourself as a resident of your own private zone.");
             return true;
         }
 
