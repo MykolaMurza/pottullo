@@ -9,7 +9,7 @@ import static ua.mykolamurza.pottullo.config.Vars.PRIVATIZATION_DISTANCE;
 
 public class PrivatizationBlockUtil {
     public static boolean isItPlayersPrivatizationBlock(Player player, Block block, Pottullo plugin) {
-        PrivatizationZone zone = plugin.getRegionConfig().getPrivatizationZone(player);
+        PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZone(player);
 
         if (zone == null) {
             return false;

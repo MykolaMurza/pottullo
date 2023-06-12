@@ -19,12 +19,12 @@ import static ua.mykolamurza.pottullo.config.Vars.*;
 /**
  * @author MykolaMurza
  */
-public class RegionConfig {
+public class PrivateZoneConfig {
     private final Pottullo plugin;
     private File zonesFile;
     private FileConfiguration config;
 
-    public RegionConfig(Pottullo plugin) {
+    public PrivateZoneConfig(Pottullo plugin) {
         this.plugin = plugin;
         createPrivatizationZonesFile();
     }
@@ -46,7 +46,7 @@ public class RegionConfig {
         }
 
         if (doesCollideWithExistingPrivatizationZones(zone)) {
-            player.sendMessage("You can't create a private zone that overlaps an existing region.");
+            player.sendMessage("You can't create a private zone that overlaps an existing zone.");
             return false;
         }
 
@@ -100,10 +100,10 @@ public class RegionConfig {
     }
 
     public PrivatizationZone getPrivatizationZoneAt(Location location) {
-        ConfigurationSection regions = config.getConfigurationSection("");
-        if (regions == null) return null;
+        ConfigurationSection zones = config.getConfigurationSection("");
+        if (zones == null) return null;
 
-        for (String zonePlayerKey : regions.getKeys(false)) {
+        for (String zonePlayerKey : zones.getKeys(false)) {
             String world = config.getString(zonePlayerKey + WORLD_KEY);
             String owner = config.getString(zonePlayerKey + OWNER_KEY);
 
@@ -152,12 +152,12 @@ public class RegionConfig {
             }
         }
 
-        zonesFile = new File(plugin.getDataFolder(), "regions.yml");
+        zonesFile = new File(plugin.getDataFolder(), "zones.yml");
 
         if (!zonesFile.exists()) {
             try {
                 if (!zonesFile.createNewFile()) {
-                    plugin.getLogger().severe("Could not create regions.yml!");
+                    plugin.getLogger().severe("Could not create zones.yml!");
                     return;
                 }
             } catch (IOException e) {
@@ -170,7 +170,7 @@ public class RegionConfig {
         try {
             config.load(zonesFile);
         } catch (IOException | InvalidConfigurationException e) {
-            plugin.getLogger().severe("Could not load regions.yml!");
+            plugin.getLogger().severe("Could not load zones.yml!");
             e.printStackTrace();
         }
     }

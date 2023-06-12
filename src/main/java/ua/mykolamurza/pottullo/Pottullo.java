@@ -3,7 +3,7 @@ package ua.mykolamurza.pottullo;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import ua.mykolamurza.pottullo.command.*;
-import ua.mykolamurza.pottullo.config.RegionConfig;
+import ua.mykolamurza.pottullo.config.PrivateZoneConfig;
 import ua.mykolamurza.pottullo.handler.LapisLazuliHandler;
 import ua.mykolamurza.pottullo.handler.ZoneProtectionHandler;
 
@@ -11,14 +11,14 @@ import java.util.Objects;
 
 // Privatization of the territory using lapis lazuli ore
 public final class Pottullo extends JavaPlugin {
-    private RegionConfig regionConfig;
+    private PrivateZoneConfig privateZoneConfig;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
         Bukkit.getLogger().info("Start POTTULLO.");
         saveDefaultConfig();
-        regionConfig = new RegionConfig(this);
+        privateZoneConfig = new PrivateZoneConfig(this);
 
         // Commands
         Objects.requireNonNull(getCommand("accept"))
@@ -45,7 +45,7 @@ public final class Pottullo extends JavaPlugin {
         Bukkit.getLogger().info("Stop POTTULLO.");
     }
 
-    public RegionConfig getRegionConfig() {
-        return regionConfig;
+    public PrivateZoneConfig getPrivateZoneConfig() {
+        return privateZoneConfig;
     }
 }

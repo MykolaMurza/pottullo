@@ -25,7 +25,7 @@ public class ZoneProtectionHandler implements Listener {
         Block block = event.getBlock();
         Location blockLocation = block.getLocation();
 
-        PrivatizationZone zone = plugin.getRegionConfig().getPrivatizationZoneAt(blockLocation);
+        PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(blockLocation);
 
         if (zone != null) {
             if (isItPrivatizationBlock(zone, block) && !zone.getOwner().equals(player.getName())) {
@@ -47,7 +47,7 @@ public class ZoneProtectionHandler implements Listener {
         Block block = event.getBlock();
         Location blockLocation = block.getLocation();
 
-        PrivatizationZone zone = plugin.getRegionConfig().getPrivatizationZoneAt(blockLocation);
+        PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(blockLocation);
 
         if (zone != null && !(zone.getOwner().equals(player.getName())
                 || zone.getResidents().contains(player.getUniqueId().toString()))) {

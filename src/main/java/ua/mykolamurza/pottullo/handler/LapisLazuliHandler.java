@@ -61,7 +61,7 @@ public class LapisLazuliHandler implements Listener {
         Player player = event.getPlayer();
 
         if (blocks.contains(block.getType()) && isItPlayersPrivatizationBlock(player, block, plugin)) {
-            plugin.getRegionConfig().removePrivatizationZone(player);
+            plugin.getPrivateZoneConfig().removePrivatizationZone(player);
         }
     }
 

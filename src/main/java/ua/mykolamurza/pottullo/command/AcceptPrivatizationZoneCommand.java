@@ -28,7 +28,7 @@ public class AcceptPrivatizationZoneCommand implements CommandExecutor {
 
         if (Storage.contains(player)) {
             try {
-                boolean isSuccess = plugin.getRegionConfig().savePrivatizationZone(player, Storage.get(player));
+                boolean isSuccess = plugin.getPrivateZoneConfig().savePrivatizationZone(player, Storage.get(player));
                 if (isSuccess) {
                     player.sendMessage("You accepted your new private territory.");
                     Storage.delete(player);
