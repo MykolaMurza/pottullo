@@ -37,7 +37,7 @@ public class PrivateZoneConfig {
      * @param zone   - information about zone
      * @return operation success status
      */
-    public boolean savePrivatizationZone(Player player, PrivatizationZone zone) {
+    public synchronized boolean savePrivatizationZone(Player player, PrivatizationZone zone) {
         String path = player.getUniqueId().toString();
 
         if (config.contains(path)) {
@@ -60,27 +60,22 @@ public class PrivateZoneConfig {
         config.set(path + TO_Z_KEY, zone.getToZ());
         config.set(path + RESIDENTS_KEY, new ArrayList<>());
 
-        try {
-            config.save(zonesFile);
-        } catch (IOException e) {
-            plugin.getLogger().severe("Could not save private zones data to file!");
-            e.printStackTrace();
-            return false;
-        }
-
-        return true;
+        return saveConfig();
     }
 
-    public void updateResidentsPrivatizationZone(Player player, PrivatizationZone zone) {
+    public synchronized void updateResidentsPrivatizationZone(Player player, PrivatizationZone zone) {
         String path = player.getUniqueId().toString();
 
         config.set(path + RESIDENTS_KEY, zone.getResidents());
 
-        try {
-            config.save(zonesFile);
-        } catch (IOException e) {
-            plugin.getLogger().severe("Could not save private zones data to file!");
-            e.printStackTrace();
+        saveConfig();
+    }
+
+    public synchronized void removePrivatizationZone(Player player) {
+        String path = player.getUniqueId().toString();
+        if (config.contains(path)) {
+            config.set(path, null);
+            saveConfig();
         }
     }
 
@@ -131,19 +126,6 @@ public class PrivateZoneConfig {
         return null;
     }
 
-    public void removePrivatizationZone(Player player) {
-        String path = player.getUniqueId().toString();
-        if (config.contains(path)) {
-            config.set(path, null);
-            try {
-                config.save(zonesFile);
-            } catch (IOException e) {
-                plugin.getLogger().severe("Could not save private zones data to file!");
-                e.printStackTrace();
-            }
-        }
-    }
-
     private void createPrivatizationZonesFile() {
         if (!plugin.getDataFolder().exists()) {
             if (!plugin.getDataFolder().mkdirs()) {
@@ -192,5 +174,17 @@ public class PrivateZoneConfig {
             }
         }
         return false; // no collisions
+    }
+
+    private synchronized boolean saveConfig() {
+        try {
+            config.save(zonesFile);
+        } catch (IOException e) {
+            plugin.getLogger().severe("Could not save private zones data to file!");
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 }
