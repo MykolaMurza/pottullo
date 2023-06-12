@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import ua.mykolamurza.pottullo.Pottullo;
 import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
@@ -54,5 +55,25 @@ public class ZoneProtectionHandler implements Listener {
             event.setCancelled(true);
             player.sendMessage("You can't build here.");
         }
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        Block block = event.getClickedBlock();
+
+        if (block == null) {
+            return;
+        }
+
+        Location blockLocation = block.getLocation();
+        PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(blockLocation);
+
+        if (zone != null && !(zone.getOwner().equals(player.getName())
+                || zone.getResidents().contains(player.getUniqueId().toString()))) {
+            event.setCancelled(true);
+            player.sendMessage("You can't use this here.");
+        }
+
     }
 }
