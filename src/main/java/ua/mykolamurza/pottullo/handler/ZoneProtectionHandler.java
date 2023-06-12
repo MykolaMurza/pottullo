@@ -7,14 +7,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import ua.mykolamurza.pottullo.Pottullo;
-import ua.mykolamurza.pottullo.PrivatizationZone;
+import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
 import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.isItPrivatizationBlock;
 
-public class ZoneProtectionListener implements Listener {
+public class ZoneProtectionHandler implements Listener {
     private final Pottullo plugin;
 
-    public ZoneProtectionListener(Pottullo plugin) {
+    public ZoneProtectionHandler(Pottullo plugin) {
         this.plugin = plugin;
     }
 
@@ -27,7 +27,7 @@ public class ZoneProtectionListener implements Listener {
         PrivatizationZone zone = plugin.getRegionConfig().getPrivatizationZoneAt(blockLocation);
 
         if (zone != null) {
-            if (isItPrivatizationBlock(zone, block, plugin) && !zone.getOwner().equals(player.getName())) {
+            if (isItPrivatizationBlock(zone, block) && !zone.getOwner().equals(player.getName())) {
                 event.setCancelled(true);
                 player.sendMessage("Only private zone owner able to break privatization block.");
             } else if (!zone.getOwner().equals(player.getName())

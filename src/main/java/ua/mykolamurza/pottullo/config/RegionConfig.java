@@ -7,11 +7,13 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import ua.mykolamurza.pottullo.Pottullo;
-import ua.mykolamurza.pottullo.PrivatizationZone;
+import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static ua.mykolamurza.pottullo.config.Vars.*;
 
 /**
  * @author MykolaMurza
@@ -47,16 +49,15 @@ public class RegionConfig {
             return false;
         }
 
-        config.set(path + ".world", zone.getWorld());
-        config.set(path + ".owner", zone.getOwner());
-        config.set(path + ".from.x", zone.getFromX());
-        config.set(path + ".to.x", zone.getToX());
-        config.set(path + ".from.y", zone.getFromY());
-        config.set(path + ".to.y", zone.getToY());
-        config.set(path + ".from.z", zone.getFromZ());
-        config.set(path + ".to.z", zone.getToZ());
-        config.set(path + ".to.z", zone.getToZ());
-        config.set(path + ".residents", new ArrayList<>());
+        config.set(path + WORLD_KEY, zone.getWorld());
+        config.set(path + OWNER_KEY, zone.getOwner());
+        config.set(path + FROM_X_KEY, zone.getFromX());
+        config.set(path + TO_X_KEY, zone.getToX());
+        config.set(path + FROM_Y_KEY, zone.getFromY());
+        config.set(path + TO_Y_KEY, zone.getToY());
+        config.set(path + FROM_Z_KEY, zone.getFromZ());
+        config.set(path + TO_Z_KEY, zone.getToZ());
+        config.set(path + RESIDENTS_KEY, new ArrayList<>());
 
         try {
             config.save(zonesFile);
@@ -72,7 +73,7 @@ public class RegionConfig {
     public void updateResidentsPrivatizationZone(Player player, PrivatizationZone zone) {
         String path = player.getUniqueId().toString();
 
-        config.set(path + ".residents", zone.getResidents());
+        config.set(path + RESIDENTS_KEY, zone.getResidents());
 
         try {
             config.save(zonesFile);
@@ -89,11 +90,11 @@ public class RegionConfig {
             return null;
         }
 
-        return new PrivatizationZone(config.getString(path + ".world"), config.getString(path + ".owner"),
-                config.getInt(path + ".from.x"), config.getInt(path + ".to.x"),
-                config.getInt(path + ".from.y"), config.getInt(path + ".to.y"),
-                config.getInt(path + ".from.z"), config.getInt(path + ".to.z"),
-                config.getStringList(path + ".residents")
+        return new PrivatizationZone(config.getString(path + WORLD_KEY), config.getString(path + OWNER_KEY),
+                config.getInt(path + FROM_X_KEY), config.getInt(path + TO_X_KEY),
+                config.getInt(path + FROM_Y_KEY), config.getInt(path + TO_Y_KEY),
+                config.getInt(path + FROM_Z_KEY), config.getInt(path + TO_Z_KEY),
+                config.getStringList(path + RESIDENTS_KEY)
         );
     }
 
@@ -102,17 +103,17 @@ public class RegionConfig {
         if (regions == null) return null;
 
         for (String uuid : regions.getKeys(false)) {
-            String world = config.getString(uuid + ".world");
-            String owner = config.getString(uuid + ".owner");
+            String world = config.getString(uuid + WORLD_KEY);
+            String owner = config.getString(uuid + OWNER_KEY);
 
             // Check if the world matches
             if (location.getWorld().getName().equals(world)) {
-                int fromX = config.getInt(uuid + ".from.x");
-                int toX = config.getInt(uuid + ".to.x");
-                int fromY = config.getInt(uuid + ".from.y");
-                int toY = config.getInt(uuid + ".to.y");
-                int fromZ = config.getInt(uuid + ".from.z");
-                int toZ = config.getInt(uuid + ".to.z");
+                int fromX = config.getInt(uuid + FROM_X_KEY);
+                int toX = config.getInt(uuid + TO_X_KEY);
+                int fromY = config.getInt(uuid + FROM_Y_KEY);
+                int toY = config.getInt(uuid + TO_Y_KEY);
+                int fromZ = config.getInt(uuid + FROM_Z_KEY);
+                int toZ = config.getInt(uuid + TO_Z_KEY);
                 int locationX = (int) Math.floor(location.getX());
                 int locationY = (int) Math.floor(location.getY());
                 int locationZ = (int) Math.floor(location.getZ());
@@ -176,12 +177,12 @@ public class RegionConfig {
 
     private boolean doesCollideWithExistingPrivatizationZones(PrivatizationZone newZone) {
         for (String key : config.getKeys(false)) {
-            int existingFromX = config.getInt(key + ".from.x");
-            int existingToX = config.getInt(key + ".to.x");
-            int existingFromY = config.getInt(key + ".from.y");
-            int existingToY = config.getInt(key + ".to.y");
-            int existingFromZ = config.getInt(key + ".from.z");
-            int existingToZ = config.getInt(key + ".to.z");
+            int existingFromX = config.getInt(key + FROM_X_KEY);
+            int existingToX = config.getInt(key + TO_X_KEY);
+            int existingFromY = config.getInt(key + FROM_Y_KEY);
+            int existingToY = config.getInt(key + TO_Y_KEY);
+            int existingFromZ = config.getInt(key + FROM_Z_KEY);
+            int existingToZ = config.getInt(key + TO_Z_KEY);
 
             if (newZone.getToX() >= existingFromX && newZone.getFromX() <= existingToX
                     && newZone.getToY() >= existingFromY && newZone.getFromY() <= existingToY

@@ -3,7 +3,7 @@ package ua.mykolamurza.pottullo.handler.util;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import ua.mykolamurza.pottullo.Pottullo;
-import ua.mykolamurza.pottullo.PrivatizationZone;
+import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
 import static ua.mykolamurza.pottullo.config.Vars.PRIVATIZATION_DISTANCE;
 
@@ -22,7 +22,7 @@ public class PrivatizationBlockUtil {
                 && block.getZ() == zone.getFromZ() + PRIVATIZATION_DISTANCE;
     }
 
-    public static boolean isItPrivatizationBlock(PrivatizationZone zone, Block block, Pottullo plugin) {
+    public static boolean isItPrivatizationBlock(PrivatizationZone zone, Block block) {
         if (zone == null) {
             return false;
         }

@@ -10,14 +10,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import ua.mykolamurza.pottullo.Pottullo;
-import ua.mykolamurza.pottullo.PrivatizationZone;
-import ua.mykolamurza.pottullo.Storage;
+import ua.mykolamurza.pottullo.model.PrivatizationZone;
+import ua.mykolamurza.pottullo.model.Storage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static ua.mykolamurza.pottullo.config.Vars.COORDS_DELIMITER;
-import static ua.mykolamurza.pottullo.config.Vars.PRIVATIZATION_DISTANCE;
 import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.isItPlayersPrivatizationBlock;
 
 /**

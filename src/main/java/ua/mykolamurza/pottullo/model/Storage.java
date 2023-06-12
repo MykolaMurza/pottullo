@@ -1,4 +1,4 @@
-package ua.mykolamurza.pottullo;
+package ua.mykolamurza.pottullo.model;
 
 import org.bukkit.entity.Player;
 

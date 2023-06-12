@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import ua.mykolamurza.pottullo.Pottullo;
-import ua.mykolamurza.pottullo.PrivatizationZone;
+import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
 public class AddResidentPrivatizationZoneCommand implements CommandExecutor {
     private final Pottullo plugin;
