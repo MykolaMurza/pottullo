@@ -12,6 +12,7 @@ import ua.mykolamurza.pottullo.model.PrivatizationZone;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static ua.mykolamurza.pottullo.config.Vars.*;
 
@@ -45,7 +46,7 @@ public class RegionConfig {
         }
 
         if (doesCollideWithExistingPrivatizationZones(zone)) {
-            player.sendMessage("You cannot create a private zone that overlaps an existing region.");
+            player.sendMessage("You can't create a private zone that overlaps an existing region.");
             return false;
         }
 
@@ -102,18 +103,18 @@ public class RegionConfig {
         ConfigurationSection regions = config.getConfigurationSection("");
         if (regions == null) return null;
 
-        for (String uuid : regions.getKeys(false)) {
-            String world = config.getString(uuid + WORLD_KEY);
-            String owner = config.getString(uuid + OWNER_KEY);
+        for (String zonePlayerKey : regions.getKeys(false)) {
+            String world = config.getString(zonePlayerKey + WORLD_KEY);
+            String owner = config.getString(zonePlayerKey + OWNER_KEY);
 
             // Check if the world matches
             if (location.getWorld().getName().equals(world)) {
-                int fromX = config.getInt(uuid + FROM_X_KEY);
-                int toX = config.getInt(uuid + TO_X_KEY);
-                int fromY = config.getInt(uuid + FROM_Y_KEY);
-                int toY = config.getInt(uuid + TO_Y_KEY);
-                int fromZ = config.getInt(uuid + FROM_Z_KEY);
-                int toZ = config.getInt(uuid + TO_Z_KEY);
+                int fromX = config.getInt(zonePlayerKey + FROM_X_KEY);
+                int toX = config.getInt(zonePlayerKey + TO_X_KEY);
+                int fromY = config.getInt(zonePlayerKey + FROM_Y_KEY);
+                int toY = config.getInt(zonePlayerKey + TO_Y_KEY);
+                int fromZ = config.getInt(zonePlayerKey + FROM_Z_KEY);
+                int toZ = config.getInt(zonePlayerKey + TO_Z_KEY);
                 int locationX = (int) Math.floor(location.getX());
                 int locationY = (int) Math.floor(location.getY());
                 int locationZ = (int) Math.floor(location.getZ());
@@ -121,8 +122,8 @@ public class RegionConfig {
                 if (locationX >= Math.min(fromX, toX) && locationX <= Math.max(fromX, toX)
                         && locationY >= Math.min(fromY, toY) && locationY <= Math.max(fromY, toY)
                         && locationZ >= Math.min(fromZ, toZ) && locationZ <= Math.max(fromZ, toZ)) {
-
-                    return new PrivatizationZone(world, owner, fromX, toX, fromY, toY, fromZ, toZ);
+                    List<String> residents = config.getStringList(zonePlayerKey + RESIDENTS_KEY);
+                    return new PrivatizationZone(world, owner, fromX, toX, fromY, toY, fromZ, toZ, residents);
                 }
             }
         }

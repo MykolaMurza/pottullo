@@ -37,7 +37,7 @@ public class RemoveResidentPrivatizationZoneCommand implements CommandExecutor {
 
         PrivatizationZone zone = plugin.getRegionConfig().getPrivatizationZone(player);
         if (zone == null) {
-            player.sendMessage("You do not own a private zone.");
+            player.sendMessage("You don't own a private zone.");
             return true;
         }
 
@@ -46,8 +46,13 @@ public class RemoveResidentPrivatizationZoneCommand implements CommandExecutor {
             zone.removeResident(resident.getUniqueId());
             plugin.getRegionConfig().updateResidentsPrivatizationZone(player, zone);
             player.sendMessage(residentName + " has been removed from your private zone.");
+
+            Player residentPlayer = Bukkit.getPlayer(residentName);
+            if (residentPlayer != null) {
+                residentPlayer.sendMessage(player.getName() + " removed you from zone.");
+            }
         } else {
-            player.sendMessage(residentName + " is not resident of your private zone.");
+            player.sendMessage(residentName + " isn't resident of your private zone.");
         }
 
         return true;

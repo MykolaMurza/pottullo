@@ -5,6 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import ua.mykolamurza.pottullo.command.*;
 import ua.mykolamurza.pottullo.config.RegionConfig;
 import ua.mykolamurza.pottullo.handler.LapisLazuliHandler;
+import ua.mykolamurza.pottullo.handler.ZoneProtectionHandler;
 
 import java.util.Objects;
 
@@ -34,6 +35,8 @@ public final class Pottullo extends JavaPlugin {
         // Handlers
         getServer().getPluginManager().registerEvents(
                 new LapisLazuliHandler(Objects.requireNonNull(getConfig().getList("blocks")), this), this);
+        getServer().getPluginManager().registerEvents(
+                new ZoneProtectionHandler(this), this);
     }
 
     @Override

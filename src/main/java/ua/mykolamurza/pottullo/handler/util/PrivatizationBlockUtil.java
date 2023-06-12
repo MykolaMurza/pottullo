@@ -15,11 +15,7 @@ public class PrivatizationBlockUtil {
             return false;
         }
 
-        return zone.getWorld().equals(block.getWorld().getName())
-                && zone.getOwner().equals(player.getName())
-                && block.getX() == zone.getFromX() + PRIVATIZATION_DISTANCE
-                && block.getY() == zone.getFromY() + PRIVATIZATION_DISTANCE
-                && block.getZ() == zone.getFromZ() + PRIVATIZATION_DISTANCE;
+        return zone.getOwner().equals(player.getName()) && isItPrivatizationBlock(zone, block);
     }
 
     public static boolean isItPrivatizationBlock(PrivatizationZone zone, Block block) {

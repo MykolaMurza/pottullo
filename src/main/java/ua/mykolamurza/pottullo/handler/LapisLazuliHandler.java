@@ -52,7 +52,7 @@ public class LapisLazuliHandler implements Listener {
                 zone.getToX() + COORDS_DELIMITER + zone.getToY() + COORDS_DELIMITER + zone.getToZ()
         ));
         Storage.add(player, zone);
-        player.sendMessage("Privatization is in process.");
+        player.sendMessage("Privatization process is in progress.");
     }
 
     @EventHandler(priority = EventPriority.LOW)

@@ -32,6 +32,8 @@ public class InfoPrivatizationZoneCommand implements CommandExecutor {
 
         if (zone != null) {
             player.sendMessage("You are in the " + zone.getOwner() + "'s private zone!");
+            player.sendMessage(String.format("Zone is from %d/%d/%d to %d/%d/%d",
+                    zone.getFromX(), zone.getFromY(), zone.getFromZ(), zone.getToX(), zone.getToY(), zone.getToZ()));
         } else {
             player.sendMessage("There are no private zones at your current location.");
         }
