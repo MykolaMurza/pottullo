@@ -1,10 +1,13 @@
 package ua.mykolamurza.pottullo.handler.util;
 
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import ua.mykolamurza.pottullo.Pottullo;
 import ua.mykolamurza.pottullo.model.PrivatizationZone;
+
+import java.util.List;
 
 import static ua.mykolamurza.pottullo.config.Vars.PRIVATIZATION_DISTANCE;
 
@@ -36,6 +39,30 @@ public class PrivatizationBlockUtil {
                 || zone.getResidents().contains(player.getUniqueId().toString()))) {
             event.setCancelled(true);
             player.sendMessage(message);
+        }
+    }
+
+    public static void cancelAffectedByPistonOrExplosionBlocksInZone(Cancellable event, List<Block> blocks,
+                                                                     Pottullo plugin) {
+        for (Block block : blocks) {
+            PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(block.getLocation());
+            if (zone != null) {
+                event.setCancelled(true);
+                break;
+            }
+        }
+    }
+
+    public static void cancelAffectedByPistonOrExplosionBlocksInZone(Cancellable event, List<Block> blocks,
+                                                                     Pottullo plugin, BlockFace direction) {
+        for (Block block : blocks) {
+            PrivatizationZone zoneCurrent = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(block.getLocation());
+            PrivatizationZone zoneNext = plugin.getPrivateZoneConfig()
+                    .getPrivatizationZoneAt(block.getRelative(direction).getLocation());
+            if (zoneCurrent != null || zoneNext != null) {
+                event.setCancelled(true);
+                break;
+            }
         }
     }
 }

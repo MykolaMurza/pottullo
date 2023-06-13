@@ -3,18 +3,18 @@ package ua.mykolamurza.pottullo.handler;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import ua.mykolamurza.pottullo.Pottullo;
 import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
-import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.checkPlayerPermissionsAndSendMessage;
-import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.isItPrivatizationBlock;
+import java.util.List;
+
+import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.*;
 
 public class ZoneProtectionHandler implements Listener {
     private final Pottullo plugin;
@@ -34,10 +34,9 @@ public class ZoneProtectionHandler implements Listener {
             if (isItPrivatizationBlock(zone, block) && !zone.getOwner().equals(player.getName())) {
                 event.setCancelled(true);
                 player.sendMessage("Only private zone owner able to break privatization block.");
+            } else {
+                checkPlayerPermissionsAndSendMessage(event, player, zone, "You can't build here.");
             }
-
-            checkPlayerPermissionsAndSendMessage(event, player, zone,
-                    "You can't build here.");
         }
     }
 
@@ -45,8 +44,7 @@ public class ZoneProtectionHandler implements Listener {
     public void onBlockPlace(BlockPlaceEvent event) {
         PrivatizationZone zone = plugin.getPrivateZoneConfig()
                 .getPrivatizationZoneAt(event.getBlock().getLocation());
-        checkPlayerPermissionsAndSendMessage(event, event.getPlayer(), zone,
-                "You can't build here.");
+        checkPlayerPermissionsAndSendMessage(event, event.getPlayer(), zone, "You can't build here.");
     }
 
     @EventHandler
@@ -57,7 +55,7 @@ public class ZoneProtectionHandler implements Listener {
 
         Block block = event.getClickedBlock();
 
-        if (block == null) {
+        if (block == null || event.getAction() == Action.LEFT_CLICK_BLOCK) {
             return;
         }
 
@@ -72,5 +70,23 @@ public class ZoneProtectionHandler implements Listener {
                 .getPrivatizationZoneAt(event.getRightClicked().getLocation());
         checkPlayerPermissionsAndSendMessage(event, event.getPlayer(), zone,
                 "You can't interact with entities in this private zone.");
+    }
+
+    @EventHandler
+    public void onPistonExtend(BlockPistonExtendEvent event) {
+        List<Block> blocks = event.getBlocks();
+        cancelAffectedByPistonOrExplosionBlocksInZone(event, blocks, plugin, event.getDirection());
+    }
+
+    @EventHandler
+    public void onPistonRetract(BlockPistonRetractEvent event) {
+        List<Block> blocks = event.getBlocks();
+        cancelAffectedByPistonOrExplosionBlocksInZone(event, blocks, plugin, event.getDirection());
+    }
+
+    @EventHandler
+    public void onExplosion(EntityExplodeEvent event) {
+        List<Block> blocks = event.blockList();
+        cancelAffectedByPistonOrExplosionBlocksInZone(event, blocks, plugin);
     }
 }
