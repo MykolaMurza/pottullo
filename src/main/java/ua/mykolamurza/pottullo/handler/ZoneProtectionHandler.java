@@ -1,16 +1,18 @@
 package ua.mykolamurza.pottullo.handler;
 
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import ua.mykolamurza.pottullo.Pottullo;
 import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
+import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.checkPlayerPermissionsAndSendMessage;
 import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.isItPrivatizationBlock;
 
 public class ZoneProtectionHandler implements Listener {
@@ -24,9 +26,8 @@ public class ZoneProtectionHandler implements Listener {
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlock();
-        Location blockLocation = block.getLocation();
 
-        PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(blockLocation);
+        PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(block.getLocation());
 
         if (zone != null) {
             if (isItPrivatizationBlock(zone, block) && !zone.getOwner().equals(player.getName())) {
@@ -34,46 +35,37 @@ public class ZoneProtectionHandler implements Listener {
                 player.sendMessage("Only private zone owner able to break privatization block.");
             }
 
-            if (!(zone.getOwner().equals(player.getName())
-                    || zone.getResidents().contains(player.getUniqueId().toString()))) {
-                event.setCancelled(true);
-                player.sendMessage("You don't have permission to break blocks in this private zone.");
-            }
+            checkPlayerPermissionsAndSendMessage(event, player, zone,
+                    "You can't build here.");
         }
     }
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        Player player = event.getPlayer();
-        Block block = event.getBlock();
-        Location blockLocation = block.getLocation();
-
-        PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(blockLocation);
-
-        if (zone != null && !(zone.getOwner().equals(player.getName())
-                || zone.getResidents().contains(player.getUniqueId().toString()))) {
-            event.setCancelled(true);
-            player.sendMessage("You can't build here.");
-        }
+        PrivatizationZone zone = plugin.getPrivateZoneConfig()
+                .getPrivatizationZoneAt(event.getBlock().getLocation());
+        checkPlayerPermissionsAndSendMessage(event, event.getPlayer(), zone,
+                "You can't build here.");
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
         Block block = event.getClickedBlock();
 
         if (block == null) {
             return;
         }
 
-        Location blockLocation = block.getLocation();
-        PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(blockLocation);
+        PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(block.getLocation());
+        checkPlayerPermissionsAndSendMessage(event, event.getPlayer(), zone,
+                "You can't interact with items in this private zone.");
+    }
 
-        if (zone != null && !(zone.getOwner().equals(player.getName())
-                || zone.getResidents().contains(player.getUniqueId().toString()))) {
-            event.setCancelled(true);
-            player.sendMessage("You can't use this here.");
-        }
-
+    @EventHandler
+    public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
+        PrivatizationZone zone = plugin.getPrivateZoneConfig()
+                .getPrivatizationZoneAt(event.getRightClicked().getLocation());
+        checkPlayerPermissionsAndSendMessage(event, event.getPlayer(), zone,
+                "You can't interact with entities in this private zone.");
     }
 }

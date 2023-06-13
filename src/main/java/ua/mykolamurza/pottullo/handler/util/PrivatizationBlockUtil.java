@@ -2,6 +2,7 @@ package ua.mykolamurza.pottullo.handler.util;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import ua.mykolamurza.pottullo.Pottullo;
 import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
@@ -27,5 +28,14 @@ public class PrivatizationBlockUtil {
                 && block.getX() == zone.getFromX() + PRIVATIZATION_DISTANCE
                 && block.getY() == zone.getFromY() + PRIVATIZATION_DISTANCE
                 && block.getZ() == zone.getFromZ() + PRIVATIZATION_DISTANCE;
+    }
+
+    public static void checkPlayerPermissionsAndSendMessage(Cancellable event, Player player,
+                                                            PrivatizationZone zone, String message) {
+        if (zone != null && !(zone.getOwner().equals(player.getName())
+                || zone.getResidents().contains(player.getUniqueId().toString()))) {
+            event.setCancelled(true);
+            player.sendMessage(message);
+        }
     }
 }
