@@ -2,10 +2,7 @@ package ua.mykolamurza.pottullo.handler;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Hanging;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
@@ -13,6 +10,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -65,19 +63,24 @@ public class ZoneProtectionHandler implements Listener {
 
         Block block = event.getClickedBlock();
 
-        if (block == null || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+        if (block == null) {
             return;
         }
 
-        if (event.getAction() == Action.PHYSICAL && block.getType() == Material.FARMLAND) {
-            PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(block.getLocation());
+        PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(block.getLocation());
+        if ((event.getAction() == Action.PHYSICAL || event.getAction() == Action.LEFT_CLICK_BLOCK)
+                && block.getType() == Material.FARMLAND) {
             checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
                     "You can't trample crops in this private zone.");
         }
 
-        PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(block.getLocation());
-        checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
-                "You can't interact with items in this private zone.");
+        if (event.getAction() == Action.PHYSICAL && block.getBlockData() instanceof Ageable) {
+            checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
+                    "You can't trample crops in this private zone.");
+        } else {
+            checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
+                    "You can't interact with items in this private zone.");
+        }
     }
 
     @EventHandler
@@ -86,6 +89,23 @@ public class ZoneProtectionHandler implements Listener {
                 .getPrivatizationZoneAt(event.getRightClicked().getLocation());
         checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
                 "You can't interact with entities in this private zone.");
+
+        if (event.getRightClicked() instanceof Hanging || event.getRightClicked() instanceof ArmorStand) {
+            checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
+                    "You can't interact with items in this private zone.");
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
+        EntityType entityType = event.getRightClicked().getType();
+        if (entityType == EntityType.ARMOR_STAND || entityType == EntityType.CHEST_BOAT
+                || entityType == EntityType.ITEM_FRAME || entityType == EntityType.GLOW_ITEM_FRAME) {
+            PrivatizationZone zone = plugin.getPrivateZoneConfig()
+                    .getPrivatizationZoneAt(event.getRightClicked().getLocation());
+            checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
+                    "You can't interact with items in this private zone.");
+        }
     }
 
     @EventHandler
