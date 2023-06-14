@@ -2,12 +2,14 @@ package ua.mykolamurza.pottullo.handler.util;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import ua.mykolamurza.pottullo.Pottullo;
 import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
 import java.util.List;
+import java.util.Set;
 
 import static ua.mykolamurza.pottullo.config.Vars.PRIVATIZATION_DISTANCE;
 
@@ -33,8 +35,8 @@ public class PrivatizationBlockUtil {
                 && block.getZ() == zone.getFromZ() + PRIVATIZATION_DISTANCE;
     }
 
-    public static void checkPlayerPermissionsAndSendMessage(Cancellable event, Player player,
-                                                            PrivatizationZone zone, String message) {
+    public static void checkPlayerHasPermissionsAndSendMessageIfNot(Cancellable event, Player player,
+                                                                    PrivatizationZone zone, String message) {
         if (zone != null && !(zone.getOwner().equals(player.getName())
                 || zone.getResidents().contains(player.getUniqueId().toString()))) {
             event.setCancelled(true);
@@ -64,5 +66,22 @@ public class PrivatizationBlockUtil {
                 break;
             }
         }
+    }
+
+    public static void cancelIfZoneExists(Cancellable event, Entity entity, Pottullo plugin) {
+        PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(entity.getLocation());
+        if (zone != null) {
+            event.setCancelled(true);
+        }
+    }
+
+    public static boolean isInstanceOfAny(Object obj, Set<Class<? extends Entity>> types) {
+        for (Class<?> type : types) {
+            if (type.isInstance(obj)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
