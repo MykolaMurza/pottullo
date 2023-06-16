@@ -1,5 +1,6 @@
 package ua.mykolamurza.pottullo.handler;
 
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -24,6 +25,7 @@ import java.util.List;
 
 import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.*;
 import static ua.mykolamurza.pottullo.handler.util.Vars.RARE_PASSIVE_MOBS;
+import static ua.mykolamurza.pottullo.handler.util.Vars.TYPES_TO_HANDLE_ON_INTERACT;
 
 public class ZoneProtectionHandler implements Listener {
     private final Pottullo plugin;
@@ -70,31 +72,28 @@ public class ZoneProtectionHandler implements Listener {
 
         PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(block.getLocation());
         checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
-                "You can't interact with items in this private zone.");
+                "You can't interact with items or entities in this private zone.");
     }
 
     @EventHandler
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
+        if (event.getRightClicked() instanceof Hanging) {
+            return;
+        }
+
         PrivatizationZone zone = plugin.getPrivateZoneConfig()
                 .getPrivatizationZoneAt(event.getRightClicked().getLocation());
         checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
-                "You can't interact with entities in this private zone.");
-
-        if (event.getRightClicked() instanceof Hanging || event.getRightClicked() instanceof ArmorStand) {
-            checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
-                    "You can't interact with items in this private zone.");
-        }
+                "You can't interact with items or entities in this private zone.");
     }
 
     @EventHandler
     public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
-        EntityType entityType = event.getRightClicked().getType();
-        if (entityType == EntityType.ARMOR_STAND || entityType == EntityType.CHEST_BOAT
-                || entityType == EntityType.ITEM_FRAME || entityType == EntityType.GLOW_ITEM_FRAME) {
+        if (TYPES_TO_HANDLE_ON_INTERACT.contains(event.getRightClicked().getType())) {
             PrivatizationZone zone = plugin.getPrivateZoneConfig()
                     .getPrivatizationZoneAt(event.getRightClicked().getLocation());
             checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
-                    "You can't interact with items in this private zone.");
+                    "You can't interact with items or entities in this private zone.");
         }
     }
 
@@ -132,6 +131,16 @@ public class ZoneProtectionHandler implements Listener {
             if (entity instanceof Player) {
                 return; // PVP is ON
             }
+
+            checkPlayerHasPermissionsAndSendMessageIfNot(event, player, zone,
+                    "You can't interact with items or entities in this private zone.");
+        }
+
+        if (damager instanceof Projectile projectile && projectile.getShooter() instanceof Player player) {
+            PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(entity.getLocation());
+
+            checkPlayerHasPermissionsAndSendMessageIfNot(event, player, zone,
+                    "You can't interact with items or entities in this private zone.");
         }
 
         if (isInstanceOfAny(entity, RARE_PASSIVE_MOBS) || !entity.getScoreboardTags().isEmpty()) {
@@ -146,13 +155,15 @@ public class ZoneProtectionHandler implements Listener {
         PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(hanging.getLocation());
 
         // On player break
-        if (remover instanceof Player player && zone != null
-                && (zone.getOwner().equals(player.getName()) || zone.getResidents().contains(player.getName()))) {
-            return;
+        if (remover instanceof Player player) {
+            checkPlayerHasPermissionsAndSendMessageIfNot(event, player, zone,
+                    "You can't interact with items or entities in this private zone.");
         }
 
         // On projectile break (arrow, fireball, snowball etc.)
         if (remover instanceof Projectile projectile) {
+            Bukkit.getLogger().info(projectile.toString());
+
             ProjectileSource shooter = projectile.getShooter();
             if (shooter instanceof Player player) {
                 checkPlayerHasPermissionsAndSendMessageIfNot(event, player, zone, "Don't even try to brake this!");

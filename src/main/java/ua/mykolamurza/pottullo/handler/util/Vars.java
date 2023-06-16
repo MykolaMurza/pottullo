@@ -12,4 +12,10 @@ public class Vars {
                 Sniffer.class,
                 MushroomCow.class
         );
+
+        public static final Set<EntityType> TYPES_TO_HANDLE_ON_INTERACT = Set.of(
+                EntityType.ARMOR_STAND,
+                EntityType.ITEM_FRAME,
+                EntityType.GLOW_ITEM_FRAME
+        );
 }
