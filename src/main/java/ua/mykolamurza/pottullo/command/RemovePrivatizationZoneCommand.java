@@ -26,7 +26,6 @@ public class RemovePrivatizationZoneCommand implements CommandExecutor {
         }
 
         plugin.getPrivateZoneConfig().removePrivatizationZone(player);
-        sender.sendMessage("Your privatisation zone was removed.");
 
         return true;
     }

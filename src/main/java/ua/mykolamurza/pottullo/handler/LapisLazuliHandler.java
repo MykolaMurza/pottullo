@@ -16,7 +16,6 @@ import ua.mykolamurza.pottullo.model.Storage;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ua.mykolamurza.pottullo.config.Vars.COORDS_DELIMITER;
 import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.isItPlayersPrivatizationBlock;
 
 /**
@@ -47,10 +46,6 @@ public class LapisLazuliHandler implements Listener {
 
         PrivatizationZone zone = new PrivatizationZone(
                 block.getWorld().getName(), player.getName(), block.getX(), block.getY(), block.getZ());
-        Bukkit.getLogger().info(String.format("%s's private zone is from %s to %s", player.getName(),
-                zone.getFromX() + COORDS_DELIMITER + zone.getFromY() + COORDS_DELIMITER + zone.getFromZ(),
-                zone.getToX() + COORDS_DELIMITER + zone.getToY() + COORDS_DELIMITER + zone.getToZ()
-        ));
         Storage.add(player, zone);
         player.sendMessage("Privatization process is in progress.");
     }

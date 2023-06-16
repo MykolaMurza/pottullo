@@ -76,6 +76,9 @@ public class PrivateZoneConfig {
         if (config.contains(path)) {
             config.set(path, null);
             saveConfig();
+            player.sendMessage("Your privatization zone was removed.");
+        } else {
+            player.sendMessage("Only private zone owner able to remove zone.");
         }
     }
 
