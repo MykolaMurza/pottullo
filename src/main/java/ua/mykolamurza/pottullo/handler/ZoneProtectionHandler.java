@@ -1,11 +1,13 @@
 package ua.mykolamurza.pottullo.handler;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.*;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.BlockPistonRetractEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
@@ -21,7 +23,6 @@ import ua.mykolamurza.pottullo.model.PrivatizationZone;
 import java.util.List;
 
 import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.*;
-import static ua.mykolamurza.pottullo.handler.util.Vars.COMMON_PASSIVE_MOBS;
 import static ua.mykolamurza.pottullo.handler.util.Vars.RARE_PASSIVE_MOBS;
 
 public class ZoneProtectionHandler implements Listener {
@@ -68,19 +69,8 @@ public class ZoneProtectionHandler implements Listener {
         }
 
         PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(block.getLocation());
-        if ((event.getAction() == Action.PHYSICAL || event.getAction() == Action.LEFT_CLICK_BLOCK)
-                && block.getType() == Material.FARMLAND) {
-            checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
-                    "You can't trample crops in this private zone.");
-        }
-
-        if (event.getAction() == Action.PHYSICAL && block.getBlockData() instanceof Ageable) {
-            checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
-                    "You can't trample crops in this private zone.");
-        } else {
-            checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
-                    "You can't interact with items in this private zone.");
-        }
+        checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
+                "You can't interact with items in this private zone.");
     }
 
     @EventHandler
@@ -138,9 +128,13 @@ public class ZoneProtectionHandler implements Listener {
                     || zone.getResidents().contains(player.getName()))) {
                 return;
             }
+
+            if (entity instanceof Player) {
+                return; // PVP is ON
+            }
         }
 
-        if (isInstanceOfAny(entity, COMMON_PASSIVE_MOBS) || isInstanceOfAny(entity, RARE_PASSIVE_MOBS)) {
+        if (isInstanceOfAny(entity, RARE_PASSIVE_MOBS) || !entity.getScoreboardTags().isEmpty()) {
             cancelIfZoneExists(event, entity, plugin);
         }
     }
@@ -156,7 +150,6 @@ public class ZoneProtectionHandler implements Listener {
                 && (zone.getOwner().equals(player.getName()) || zone.getResidents().contains(player.getName()))) {
             return;
         }
-
 
         // On projectile break (arrow, fireball, snowball etc.)
         if (remover instanceof Projectile projectile) {
