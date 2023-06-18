@@ -2,7 +2,10 @@ package ua.mykolamurza.pottullo.handler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Hanging;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -27,6 +30,9 @@ import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.*;
 import static ua.mykolamurza.pottullo.handler.util.Vars.RARE_PASSIVE_MOBS;
 import static ua.mykolamurza.pottullo.handler.util.Vars.TYPES_TO_HANDLE_ON_INTERACT;
 
+/**
+ * @author Mykola Murza
+ */
 public class ZoneProtectionHandler implements Listener {
     private final Pottullo plugin;
 

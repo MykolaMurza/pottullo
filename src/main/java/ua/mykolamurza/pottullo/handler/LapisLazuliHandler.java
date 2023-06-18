@@ -19,7 +19,7 @@ import java.util.List;
 import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.isItPlayersPrivatizationBlock;
 
 /**
- * @author MykolaMurza
+ * @author Mykola Murza
  */
 public class LapisLazuliHandler implements Listener {
     private final Pottullo plugin;

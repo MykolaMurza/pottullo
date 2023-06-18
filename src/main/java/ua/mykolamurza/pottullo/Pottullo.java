@@ -9,7 +9,12 @@ import ua.mykolamurza.pottullo.handler.ZoneProtectionHandler;
 
 import java.util.Objects;
 
-// Privatization of the territory using lapis lazuli ore
+/**
+ * Privatization of the territory using lapis lazuli ore
+ *
+ * @author Mykola Murza
+ * @version Minecraft 1.20.1
+ */
 public final class Pottullo extends JavaPlugin {
     private PrivateZoneConfig privateZoneConfig;
 
@@ -31,6 +36,8 @@ public final class Pottullo extends JavaPlugin {
                 .setExecutor(new AddResidentPrivatizationZoneCommand(this));
         Objects.requireNonNull(getCommand("removeresident"))
                 .setExecutor(new RemoveResidentPrivatizationZoneCommand(this));
+        Objects.requireNonNull(getCommand("residents"))
+                .setExecutor(new ResidentsListPrivateZoneCommand(this));
 
         // Handlers
         getServer().getPluginManager().registerEvents(

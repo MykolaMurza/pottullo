@@ -6,14 +6,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import ua.mykolamurza.pottullo.Pottullo;
+import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
 /**
  * @author Mykola Murza
  */
-public class RemovePrivatizationZoneCommand implements CommandExecutor {
+public class ResidentsListPrivateZoneCommand implements CommandExecutor {
     private final Pottullo plugin;
 
-    public RemovePrivatizationZoneCommand(Pottullo plugin) {
+    public ResidentsListPrivateZoneCommand(Pottullo plugin) {
         this.plugin = plugin;
     }
 
@@ -25,7 +26,20 @@ public class RemovePrivatizationZoneCommand implements CommandExecutor {
             return true;
         }
 
-        plugin.getPrivateZoneConfig().removePrivatizationZone(player);
+        PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZone(player);
+
+        if (zone == null) {
+            player.sendMessage("You don't own a private zone.");
+            return true;
+        }
+
+        if (zone.getResidents().isEmpty()) {
+            player.sendMessage("There are no residents in your private zone.");
+            return true;
+        }
+
+        String residentsList = String.join(", ", zone.getResidentsNames());
+        player.sendMessage("Residents of your private zone: " + residentsList);
 
         return true;
     }

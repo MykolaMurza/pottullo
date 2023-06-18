@@ -13,6 +13,9 @@ import java.util.Set;
 
 import static ua.mykolamurza.pottullo.config.Vars.PRIVATIZATION_DISTANCE;
 
+/**
+ * @author Mykola Murza
+ */
 public class PrivatizationBlockUtil {
     public static boolean isItPlayersPrivatizationBlock(Player player, Block block, Pottullo plugin) {
         PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZone(player);

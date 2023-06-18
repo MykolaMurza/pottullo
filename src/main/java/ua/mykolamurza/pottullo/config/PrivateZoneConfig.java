@@ -17,7 +17,7 @@ import java.util.List;
 import static ua.mykolamurza.pottullo.config.Vars.*;
 
 /**
- * @author MykolaMurza
+ * @author Mykola Murza
  */
 public class PrivateZoneConfig {
     private final Pottullo plugin;
@@ -30,7 +30,7 @@ public class PrivateZoneConfig {
     }
 
     /**
-     * Save privatization zone using Player and PrivatizationZone objects.
+     * Save private zone using Player and PrivatizationZone objects.
      * Information about zones store as record in YML file, where key is player's ID.
      *
      * @param player - owner of zone
@@ -76,7 +76,7 @@ public class PrivateZoneConfig {
         if (config.contains(path)) {
             config.set(path, null);
             saveConfig();
-            player.sendMessage("Your privatization zone was removed.");
+            player.sendMessage("Your private zone was removed.");
         } else {
             player.sendMessage("Only private zone owner able to remove zone.");
         }

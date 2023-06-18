@@ -9,7 +9,7 @@ import ua.mykolamurza.pottullo.Pottullo;
 import ua.mykolamurza.pottullo.model.Storage;
 
 /**
- * @author MykolaMurza
+ * @author Mykola Murza
  */
 public class AcceptPrivatizationZoneCommand implements CommandExecutor {
     private final Pottullo plugin;

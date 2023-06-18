@@ -10,6 +10,9 @@ import org.jetbrains.annotations.NotNull;
 import ua.mykolamurza.pottullo.Pottullo;
 import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
+/**
+ * @author Mykola Murza
+ */
 public class AddResidentPrivatizationZoneCommand implements CommandExecutor {
     private final Pottullo plugin;
 

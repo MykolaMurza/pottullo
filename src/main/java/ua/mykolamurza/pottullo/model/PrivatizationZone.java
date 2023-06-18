@@ -1,5 +1,7 @@
 package ua.mykolamurza.pottullo.model;
 
+import org.bukkit.Bukkit;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -26,18 +28,6 @@ public class PrivatizationZone {
         this.toY = (y + PRIVATIZATION_DISTANCE);
         this.fromZ = (z - PRIVATIZATION_DISTANCE);
         this.toZ = (z + PRIVATIZATION_DISTANCE);
-    }
-
-    public PrivatizationZone(String world, String owner, int fromX, int toX,
-                             int fromY, int toY, int fromZ, int toZ) {
-        this.world = world;
-        this.owner = owner;
-        this.fromX = fromX;
-        this.toX = toX;
-        this.fromY = fromY;
-        this.toY = toY;
-        this.fromZ = fromZ;
-        this.toZ = toZ;
     }
 
     public PrivatizationZone(String world, String owner, int fromX, int toX, int fromY,
@@ -102,6 +92,12 @@ public class PrivatizationZone {
 
     public List<String> getResidents() {
         return residents != null ? residents : new ArrayList<>();
+    }
+
+    public List<String> getResidentsNames() {
+        return getResidents().stream()
+                .map(uuidString -> Bukkit.getOfflinePlayer(UUID.fromString(uuidString)).getName())
+                .toList();
     }
 
     @Override
