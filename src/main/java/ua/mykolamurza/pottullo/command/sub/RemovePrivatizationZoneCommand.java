@@ -1,32 +1,27 @@
-package ua.mykolamurza.pottullo.command;
+package ua.mykolamurza.pottullo.command.sub;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 import ua.mykolamurza.pottullo.Pottullo;
 
 /**
  * @author Mykola Murza
  */
-public class RemovePrivatizationZoneCommand implements CommandExecutor {
+public class RemovePrivatizationZoneCommand extends PottulloSubCommand {
     private final Pottullo plugin;
 
     public RemovePrivatizationZoneCommand(Pottullo plugin) {
+        super("/pz remove", "Remove your private zone (doesn't destroy the block).");
         this.plugin = plugin;
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
-                             @NotNull String label, @NotNull String[] arguments) {
+    public void handleCommand(CommandSender sender, String[] arguments) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage("It's funny, but you are just a console. Simulation of a life.");
-            return true;
+            return;
         }
 
         plugin.getPrivateZoneConfig().removePrivatizationZone(player);
-
-        return true;
     }
 }

@@ -1,27 +1,7 @@
 name: pottullo
 version: '${project.version}'
 main: ua.mykolamurza.pottullo.Pottullo
-api-version: 1.20.1
+api-version: '1.20'
 commands:
-  accept:
-    description: Accept your selected zone as a private zone.
-    usage: 'Usage: /accept'
-    aliases: acc
-  info:
-    description: Get information on the current private zone.
-    usage: 'Usage: /info'
-  remove:
-    description: Remove your private zone (doesn't destroy the block).
-    usage: 'Usage: /remove'
-  addresident:
-    description: Adds a resident to your private zone.
-    usage: 'Usage: /ares <playerName>'
-    aliases: ares
-  removeresident:
-    description: Removes a resident from your private zone.
-    usage: 'Usage: /rres <playerName>'
-    aliases: rres
-  residents:
-    description: Get a list of residents.
-    usage: 'Usage: /residents'
-    aliases: res
+  pz:
+    description: 'Privatization of the territory using lapis lazuli ore.'

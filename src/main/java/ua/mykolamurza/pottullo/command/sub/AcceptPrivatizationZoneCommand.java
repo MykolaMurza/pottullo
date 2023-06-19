@@ -1,29 +1,26 @@
-package ua.mykolamurza.pottullo.command;
+package ua.mykolamurza.pottullo.command.sub;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 import ua.mykolamurza.pottullo.Pottullo;
 import ua.mykolamurza.pottullo.model.Storage;
 
 /**
  * @author Mykola Murza
  */
-public class AcceptPrivatizationZoneCommand implements CommandExecutor {
+public class AcceptPrivatizationZoneCommand extends PottulloSubCommand {
     private final Pottullo plugin;
 
     public AcceptPrivatizationZoneCommand(Pottullo plugin) {
+        super("/pz accept", "Accept your selected zone as a private zone.");
         this.plugin = plugin;
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
-                             @NotNull String label, @NotNull String[] arguments) {
+    public void handleCommand(CommandSender sender, String[] arguments) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage("It's funny, but you are just a console. Simulation of a life.");
-            return true;
+            return;
         }
 
         if (Storage.contains(player)) {
@@ -40,6 +37,5 @@ public class AcceptPrivatizationZoneCommand implements CommandExecutor {
         } else {
             player.sendMessage("Please, put privatization block before.");
         }
-        return true;
     }
 }
