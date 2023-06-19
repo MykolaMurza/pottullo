@@ -25,12 +25,12 @@ public class AddResidentPrivatizationZoneCommand extends PottulloSubCommand {
             return;
         }
 
-        if (arguments.length != 1) {
+        if (arguments.length != 2) {
             player.sendMessage(super.getUsage());
             return;
         }
 
-        String residentName = arguments[0];
+        String residentName = arguments[1];
         if (sender.getName().equals(residentName)) {
             player.sendMessage("You can't add or remove yourself as a resident of your own private zone.");
             return;

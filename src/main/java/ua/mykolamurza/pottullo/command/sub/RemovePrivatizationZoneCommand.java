@@ -11,7 +11,7 @@ public class RemovePrivatizationZoneCommand extends PottulloSubCommand {
     private final Pottullo plugin;
 
     public RemovePrivatizationZoneCommand(Pottullo plugin) {
-        super("/pz remove", "Remove your private zone (doesn't destroy the block).");
+        super("/pz remove", "Remove your private zone.");
         this.plugin = plugin;
     }
 
