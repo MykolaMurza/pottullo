@@ -25,7 +25,7 @@ public class AddResidentPrivatizationZoneCommand extends PottulloSubCommand {
             return;
         }
 
-        if (arguments.length != 1) {
+        if (arguments.length != 2) {
             player.sendMessage(super.getUsage());
             return;
         }

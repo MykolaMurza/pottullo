@@ -25,7 +25,7 @@ public class RemoveResidentPrivatizationZoneCommand extends PottulloSubCommand {
             return;
         }
 
-        if (arguments.length != 1) {
+        if (arguments.length != 2) {
             sender.sendMessage(super.getUsage());
             return;
         }
