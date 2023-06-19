@@ -11,7 +11,7 @@ public class HelpCommand extends PottulloSubCommand {
     }
 
     public void handleCommand(CommandSender sender, List<PottulloSubCommand> commands) {
-        sender.sendMessage("Private zone (PZ) commands list:");
+        sender.sendMessage("The POTTULLO private zone (PZ) commands list:");
         for (PottulloSubCommand subCommand : commands) {
             sender.sendMessage(subCommand.getUsage() + " - " + subCommand.getDescription());
         }
