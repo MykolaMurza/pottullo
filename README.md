@@ -35,7 +35,7 @@ To install the plugin, download the latest release and place the `.jar` file int
 
 ## Configuring
 
-Server administrators have the file `config.yml` in the plugin's directory. This file provides configurations for plugin language (see Localization section), privatization blocks (names as in the Material), and the radius of the private zone from the privatization block.
+Server administrators have the file `config.yml` in the plugin's directory. This file provides configurations for plugin language (see [Localization section](#localization)), privatization blocks (names as in the Material), and the radius of the private zone from the privatization block.
 ```
 # Choose a language for plugin messages
 # en - English
