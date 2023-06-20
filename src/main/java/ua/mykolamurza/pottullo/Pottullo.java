@@ -7,7 +7,10 @@ import ua.mykolamurza.pottullo.config.PrivateZoneConfig;
 import ua.mykolamurza.pottullo.handler.LapisLazuliHandler;
 import ua.mykolamurza.pottullo.handler.ZoneProtectionHandler;
 
+import java.util.ArrayList;
 import java.util.Objects;
+
+import static ua.mykolamurza.pottullo.config.Vars.setSystemPD;
 
 /**
  * Privatization of the territory using lapis lazuli ore
@@ -23,11 +26,12 @@ public final class Pottullo extends JavaPlugin {
         Bukkit.getLogger().info("Start POTTULLO.");
         saveDefaultConfig();
         privateZoneConfig = new PrivateZoneConfig(this);
+        setSystemPD(getConfig().getInt("radius", 7));
 
         Objects.requireNonNull(getCommand("pz")).setExecutor(new PottulloCommand(this));
 
         getServer().getPluginManager().registerEvents(new LapisLazuliHandler(
-                Objects.requireNonNull(getConfig().getList("blocks")), this), this);
+                Objects.requireNonNull(getConfig().getList("blocks", new ArrayList<>())), this), this);
         getServer().getPluginManager().registerEvents(new ZoneProtectionHandler(this), this);
     }
 

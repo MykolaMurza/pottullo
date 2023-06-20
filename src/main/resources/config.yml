@@ -2,3 +2,4 @@ language: 'en'
 blocks:
   - LAPIS_ORE
   - DEEPSLATE_LAPIS_ORE
+radius: 7

@@ -14,7 +14,7 @@ public class AddResidentPrivatizationZoneCommand extends PottulloSubCommand {
     private final Pottullo plugin;
 
     public AddResidentPrivatizationZoneCommand(Pottullo plugin) {
-        super("/pz ares <name>", "Add a resident to your private zone.");
+        super("/pz ares <name>", "Add a resident to your PZ.");
         this.plugin = plugin;
     }
 

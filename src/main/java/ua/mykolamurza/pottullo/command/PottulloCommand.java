@@ -10,6 +10,9 @@ import ua.mykolamurza.pottullo.command.sub.*;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * @author Mykola Murza
+ */
 public class PottulloCommand implements CommandExecutor {
     private final HelpCommand help;
     private final AcceptPrivatizationZoneCommand accept;
@@ -40,12 +43,12 @@ public class PottulloCommand implements CommandExecutor {
         }
 
         switch (arguments[0].toLowerCase(Locale.ENGLISH)) {
-            case "accept" -> accept.handleCommand(sender, arguments);
-            case "info" -> info.handleCommand(sender, arguments);
-            case "ares", "addresident" -> addResident.handleCommand(sender, arguments);
-            case "rres", "removeresident" -> removeResident.handleCommand(sender, arguments);
-            case "remove" -> remove.handleCommand(sender, arguments);
-            case "residents" -> residents.handleCommand(sender, arguments);
+            case "accept"                   -> accept.handleCommand(sender, arguments);
+            case "info"                     -> info.handleCommand(sender, arguments);
+            case "ares", "addresident"      -> addResident.handleCommand(sender, arguments);
+            case "rres", "removeresident"   -> removeResident.handleCommand(sender, arguments);
+            case "remove"                   -> remove.handleCommand(sender, arguments);
+            case "residents"                -> residents.handleCommand(sender, arguments);
             default -> {
                 sender.sendMessage("Unknown command. Use /pz help to see available commands.");
                 return false;

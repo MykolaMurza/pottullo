@@ -12,7 +12,7 @@ public class AcceptPrivatizationZoneCommand extends PottulloSubCommand {
     private final Pottullo plugin;
 
     public AcceptPrivatizationZoneCommand(Pottullo plugin) {
-        super("/pz accept", "Accept your selected zone as a private zone.");
+        super("/pz accept", "Accept your selected zone as a PZ.");
         this.plugin = plugin;
     }
 

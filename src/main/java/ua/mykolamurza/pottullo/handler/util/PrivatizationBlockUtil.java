@@ -11,7 +11,7 @@ import ua.mykolamurza.pottullo.model.PrivatizationZone;
 import java.util.List;
 import java.util.Set;
 
-import static ua.mykolamurza.pottullo.config.Vars.PRIVATIZATION_DISTANCE;
+import static ua.mykolamurza.pottullo.config.Vars.getSystemPD;
 
 /**
  * @author Mykola Murza
@@ -32,10 +32,12 @@ public class PrivatizationBlockUtil {
             return false;
         }
 
+        int radius = getSystemPD();
+
         return zone.getWorld().equals(block.getWorld().getName())
-                && block.getX() == zone.getFromX() + PRIVATIZATION_DISTANCE
-                && block.getY() == zone.getFromY() + PRIVATIZATION_DISTANCE
-                && block.getZ() == zone.getFromZ() + PRIVATIZATION_DISTANCE;
+                && block.getX() == zone.getFromX() + radius
+                && block.getY() == zone.getFromY() + radius
+                && block.getZ() == zone.getFromZ() + radius;
     }
 
     public static void checkPlayerHasPermissionsAndSendMessageIfNot(Cancellable event, Player player,

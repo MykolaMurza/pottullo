@@ -13,7 +13,7 @@ public class InfoPrivatizationZoneCommand extends PottulloSubCommand {
     private final Pottullo plugin;
 
     public InfoPrivatizationZoneCommand(Pottullo plugin) {
-        super("/pz info", "Get information on the current private zone.");
+        super("/pz info", "Get info on the private zone in your location.");
         this.plugin = plugin;
     }
 

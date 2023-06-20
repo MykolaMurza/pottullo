@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static ua.mykolamurza.pottullo.config.Vars.PRIVATIZATION_DISTANCE;
+import static ua.mykolamurza.pottullo.config.Vars.getSystemPD;
 
 public class PrivatizationZone {
     private final String world;
@@ -20,14 +20,15 @@ public class PrivatizationZone {
     private List<String> residents;
 
     public PrivatizationZone(String world, String owner, int x, int y, int z) {
+        int radius = getSystemPD();
         this.world = world;
         this.owner = owner;
-        this.fromX = (x - PRIVATIZATION_DISTANCE);
-        this.toX = (x + PRIVATIZATION_DISTANCE);
-        this.fromY = (y - PRIVATIZATION_DISTANCE);
-        this.toY = (y + PRIVATIZATION_DISTANCE);
-        this.fromZ = (z - PRIVATIZATION_DISTANCE);
-        this.toZ = (z + PRIVATIZATION_DISTANCE);
+        this.fromX = (x - radius);
+        this.toX = (x + radius);
+        this.fromY = (y - radius);
+        this.toY = (y + radius);
+        this.fromZ = (z - radius);
+        this.toZ = (z + radius);
     }
 
     public PrivatizationZone(String world, String owner, int fromX, int toX, int fromY,

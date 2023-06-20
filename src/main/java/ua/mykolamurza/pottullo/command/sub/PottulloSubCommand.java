@@ -2,6 +2,9 @@ package ua.mykolamurza.pottullo.command.sub;
 
 import org.bukkit.command.CommandSender;
 
+/**
+ * @author Mykola Murza
+ */
 public abstract class PottulloSubCommand {
     private final String usage;
     private final String description;

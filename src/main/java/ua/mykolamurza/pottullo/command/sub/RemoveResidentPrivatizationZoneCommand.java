@@ -14,7 +14,7 @@ public class RemoveResidentPrivatizationZoneCommand extends PottulloSubCommand {
     private final Pottullo plugin;
 
     public RemoveResidentPrivatizationZoneCommand(Pottullo plugin) {
-        super("/pz rres <name>", "Remove a resident from your private zone.");
+        super("/pz rres <name>", "Remove a resident from your PZ.");
         this.plugin = plugin;
     }
 
