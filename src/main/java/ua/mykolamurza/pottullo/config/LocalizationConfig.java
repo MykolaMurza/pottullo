@@ -4,11 +4,13 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class LocalizationConfig {
-    private static Locale locale = Locale.ENGLISH;
+    private static Locale locale;
 
     public static void setSystemLanguage(String language) {
-        if (language.length() == 2) {
-            setSystemLocale(new Locale(language));
+        if (language.equals("ua") || language.equals("uk")) {
+            setSystemLocale(new Locale("uk", "UA"));
+        } else {
+            setSystemLocale(new Locale("en", "UK"));
         }
     }
 

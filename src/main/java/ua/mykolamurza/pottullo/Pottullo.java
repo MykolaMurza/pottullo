@@ -8,6 +8,7 @@ import ua.mykolamurza.pottullo.handler.LapisLazuliHandler;
 import ua.mykolamurza.pottullo.handler.ZoneProtectionHandler;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 import static ua.mykolamurza.pottullo.config.LocalizationConfig.setSystemLanguage;
@@ -28,6 +29,7 @@ public final class Pottullo extends JavaPlugin {
         saveDefaultConfig();
         privateZoneConfig = new PrivateZoneConfig(this);
         setSystemPD(getConfig().getInt("radius", 7));
+        Locale.setDefault(Locale.ENGLISH);
         setSystemLanguage(getConfig().getString("language", "en"));
 
         Objects.requireNonNull(getCommand("pz")).setExecutor(new PottulloCommand(this));

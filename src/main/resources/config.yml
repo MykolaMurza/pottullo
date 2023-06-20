@@ -1,5 +1,12 @@
+# Choose a language for plugin messages
+# en - English
+# uk - Ukrainian
 language: 'en'
+
+# Choose blocks to make them privatization blocks.
 blocks:
   - LAPIS_ORE
   - DEEPSLATE_LAPIS_ORE
+
+# Set the radius of private from the privatization block.
 radius: 7
