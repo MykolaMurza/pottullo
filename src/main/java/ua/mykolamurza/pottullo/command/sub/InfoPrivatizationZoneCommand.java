@@ -6,6 +6,8 @@ import org.bukkit.entity.Player;
 import ua.mykolamurza.pottullo.Pottullo;
 import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
+import static ua.mykolamurza.pottullo.config.LocalizationConfig.getBundledText;
+
 /**
  * @author Mykola Murza
  */
@@ -13,7 +15,7 @@ public class InfoPrivatizationZoneCommand extends PottulloSubCommand {
     private final Pottullo plugin;
 
     public InfoPrivatizationZoneCommand(Pottullo plugin) {
-        super("/pz info", "Get info on the private zone in your location.");
+        super("/pz info", getBundledText("command.description.info"));
         this.plugin = plugin;
     }
 
@@ -27,11 +29,12 @@ public class InfoPrivatizationZoneCommand extends PottulloSubCommand {
         Location location = player.getLocation();
         PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(location);
         if (zone != null) {
-            player.sendMessage("You are in the " + zone.getOwner() + "'s private zone!");
-            player.sendMessage(String.format("Zone is from %d/%d/%d to %d/%d/%d",
+            player.sendMessage(String.format(
+                    getBundledText("command.info.zone"), player.getName()));
+            player.sendMessage(String.format(getBundledText("command.info.zone-bounds"),
                     zone.getFromX(), zone.getFromY(), zone.getFromZ(), zone.getToX(), zone.getToY(), zone.getToZ()));
         } else {
-            player.sendMessage("There are no private zones at your current location.");
+            player.sendMessage(getBundledText("command.info.no-zone"));
         }
     }
 }

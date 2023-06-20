@@ -10,6 +10,8 @@ import ua.mykolamurza.pottullo.command.sub.*;
 import java.util.List;
 import java.util.Locale;
 
+import static ua.mykolamurza.pottullo.config.LocalizationConfig.getBundledText;
+
 /**
  * @author Mykola Murza
  */
@@ -43,14 +45,14 @@ public class PottulloCommand implements CommandExecutor {
         }
 
         switch (arguments[0].toLowerCase(Locale.ENGLISH)) {
-            case "accept"                   -> accept.handleCommand(sender, arguments);
-            case "info"                     -> info.handleCommand(sender, arguments);
-            case "ares", "addresident"      -> addResident.handleCommand(sender, arguments);
-            case "rres", "removeresident"   -> removeResident.handleCommand(sender, arguments);
-            case "remove"                   -> remove.handleCommand(sender, arguments);
-            case "residents"                -> residents.handleCommand(sender, arguments);
+            case "accept" -> accept.handleCommand(sender, arguments);
+            case "info" -> info.handleCommand(sender, arguments);
+            case "ares", "addresident" -> addResident.handleCommand(sender, arguments);
+            case "rres", "removeresident" -> removeResident.handleCommand(sender, arguments);
+            case "remove" -> remove.handleCommand(sender, arguments);
+            case "residents" -> residents.handleCommand(sender, arguments);
             default -> {
-                sender.sendMessage("Unknown command. Use /pz help to see available commands.");
+                sender.sendMessage(getBundledText("command.common.unknown-command"));
                 return false;
             }
         }

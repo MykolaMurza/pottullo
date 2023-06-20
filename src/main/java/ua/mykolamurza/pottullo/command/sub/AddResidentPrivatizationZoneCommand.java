@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import ua.mykolamurza.pottullo.Pottullo;
 import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
+import static ua.mykolamurza.pottullo.config.LocalizationConfig.getBundledText;
+
 /**
  * @author Mykola Murza
  */
@@ -14,7 +16,7 @@ public class AddResidentPrivatizationZoneCommand extends PottulloSubCommand {
     private final Pottullo plugin;
 
     public AddResidentPrivatizationZoneCommand(Pottullo plugin) {
-        super("/pz ares <name>", "Add a resident to your PZ.");
+        super("/pz ares <name>", getBundledText("command.description.ares"));
         this.plugin = plugin;
     }
 
@@ -32,27 +34,30 @@ public class AddResidentPrivatizationZoneCommand extends PottulloSubCommand {
 
         String residentName = arguments[1];
         if (sender.getName().equals(residentName)) {
-            player.sendMessage("You can't add or remove yourself as a resident of your own private zone.");
+            player.sendMessage(getBundledText("command.ares.cant-add-yourself"));
             return;
         }
 
         PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZone(player);
         if (zone == null) {
-            player.sendMessage("You don't own a private zone.");
+            player.sendMessage(getBundledText("command.common.dont-own-zone"));
             return;
         }
 
         OfflinePlayer resident = Bukkit.getOfflinePlayer(residentName);
         if (zone.getResidents().contains(resident.getUniqueId().toString())) {
-            player.sendMessage(residentName + " is already a resident of your private zone.");
+            player.sendMessage(String.format(
+                    getBundledText("command.ares.already-res"), player.getName()));
         } else {
             zone.addResident(resident.getUniqueId());
             plugin.getPrivateZoneConfig().updateResidentsPrivatizationZone(player, zone);
-            player.sendMessage(residentName + " has been added as a resident to your private zone.");
+            player.sendMessage(String.format(
+                    getBundledText("command.ares.you-added-res"), player.getName()));
 
             Player residentPlayer = Bukkit.getPlayer(residentName);
             if (residentPlayer != null) {
-                residentPlayer.sendMessage(player.getName() + " added you to zone.");
+                residentPlayer.sendMessage(String.format(
+                        getBundledText("command.ares.you-are-res"), player.getName()));
             }
         }
     }

@@ -16,6 +16,7 @@ import ua.mykolamurza.pottullo.model.Storage;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ua.mykolamurza.pottullo.config.LocalizationConfig.getBundledText;
 import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.isItPlayersPrivatizationBlock;
 
 /**
@@ -47,7 +48,7 @@ public class LapisLazuliHandler implements Listener {
         PrivatizationZone zone = new PrivatizationZone(
                 block.getWorld().getName(), player.getName(), block.getX(), block.getY(), block.getZ());
         Storage.add(player, zone);
-        player.sendMessage("Privatization process is in progress.");
+        player.sendMessage(getBundledText("privatization-started"));
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -56,7 +57,11 @@ public class LapisLazuliHandler implements Listener {
         Player player = event.getPlayer();
 
         if (blocks.contains(block.getType()) && isItPlayersPrivatizationBlock(player, block, plugin)) {
-            plugin.getPrivateZoneConfig().removePrivatizationZone(player);
+            player.sendMessage(
+                    plugin.getPrivateZoneConfig().removePrivatizationZone(player)
+                            ? getBundledText("command.remove.removed")
+                            : getBundledText("command.common.dont-own-zone")
+            );
         }
     }
 

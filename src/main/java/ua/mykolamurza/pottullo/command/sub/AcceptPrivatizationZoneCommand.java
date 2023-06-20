@@ -5,6 +5,8 @@ import org.bukkit.entity.Player;
 import ua.mykolamurza.pottullo.Pottullo;
 import ua.mykolamurza.pottullo.model.Storage;
 
+import static ua.mykolamurza.pottullo.config.LocalizationConfig.getBundledText;
+
 /**
  * @author Mykola Murza
  */
@@ -12,7 +14,7 @@ public class AcceptPrivatizationZoneCommand extends PottulloSubCommand {
     private final Pottullo plugin;
 
     public AcceptPrivatizationZoneCommand(Pottullo plugin) {
-        super("/pz accept", "Accept your selected zone as a PZ.");
+        super("/pz accept", getBundledText("command.description.accept"));
         this.plugin = plugin;
     }
 
@@ -27,15 +29,15 @@ public class AcceptPrivatizationZoneCommand extends PottulloSubCommand {
             try {
                 boolean isSuccess = plugin.getPrivateZoneConfig().savePrivatizationZone(player, Storage.get(player));
                 if (isSuccess) {
-                    player.sendMessage("You accepted your new private territory.");
+                    player.sendMessage(getBundledText("command.accept.accepted"));
                     Storage.delete(player);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                player.sendMessage("Something went wrong.");
+                player.sendMessage(getBundledText("command.common.unknown-error"));
             }
         } else {
-            player.sendMessage("Please, put privatization block before.");
+            player.sendMessage(getBundledText("command.accept.put-block-before"));
         }
     }
 }

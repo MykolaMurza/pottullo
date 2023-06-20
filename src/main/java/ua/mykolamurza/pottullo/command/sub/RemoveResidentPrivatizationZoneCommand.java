@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import ua.mykolamurza.pottullo.Pottullo;
 import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
+import static ua.mykolamurza.pottullo.config.LocalizationConfig.getBundledText;
+
 /**
  * @author Mykola Murza
  */
@@ -14,7 +16,7 @@ public class RemoveResidentPrivatizationZoneCommand extends PottulloSubCommand {
     private final Pottullo plugin;
 
     public RemoveResidentPrivatizationZoneCommand(Pottullo plugin) {
-        super("/pz rres <name>", "Remove a resident from your PZ.");
+        super("/pz rres <name>", getBundledText("command.description.rres"));
         this.plugin = plugin;
     }
 
@@ -32,13 +34,13 @@ public class RemoveResidentPrivatizationZoneCommand extends PottulloSubCommand {
 
         String residentName = arguments[1];
         if (sender.getName().equals(residentName)) {
-            player.sendMessage("You can't add or remove yourself as a resident of your own private zone.");
+            player.sendMessage(getBundledText("command.rres.cant-remove-yourself"));
             return;
         }
 
         PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZone(player);
         if (zone == null) {
-            player.sendMessage("You don't own a private zone.");
+            player.sendMessage(getBundledText("command.common.dont-own-zone"));
             return;
         }
 
@@ -46,14 +48,17 @@ public class RemoveResidentPrivatizationZoneCommand extends PottulloSubCommand {
         if (zone.getResidents().contains(resident.getUniqueId().toString())) {
             zone.removeResident(resident.getUniqueId());
             plugin.getPrivateZoneConfig().updateResidentsPrivatizationZone(player, zone);
-            player.sendMessage(residentName + " has been removed from your private zone.");
+            player.sendMessage(String.format(
+                    getBundledText("command.rres.you-removed-res"), player.getName()));
 
             Player residentPlayer = Bukkit.getPlayer(residentName);
             if (residentPlayer != null) {
-                residentPlayer.sendMessage(player.getName() + " removed you from zone.");
+                residentPlayer.sendMessage(String.format(
+                        getBundledText("command.rres.you-are-removed"), player.getName()));
             }
         } else {
-            player.sendMessage(residentName + " isn't resident of your private zone.");
+            player.sendMessage(String.format(
+                    getBundledText("command.rres.not-res"), player.getName()));
         }
     }
 }

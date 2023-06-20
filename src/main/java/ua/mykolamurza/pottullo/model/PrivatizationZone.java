@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static ua.mykolamurza.pottullo.config.Vars.getSystemPD;
+import static ua.mykolamurza.pottullo.config.PrivatizationDistanceConfig.getSystemPD;
 
 public class PrivatizationZone {
     private final String world;

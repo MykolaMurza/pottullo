@@ -10,7 +10,8 @@ import ua.mykolamurza.pottullo.handler.ZoneProtectionHandler;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static ua.mykolamurza.pottullo.config.Vars.setSystemPD;
+import static ua.mykolamurza.pottullo.config.LocalizationConfig.setSystemLanguage;
+import static ua.mykolamurza.pottullo.config.PrivatizationDistanceConfig.setSystemPD;
 
 /**
  * Privatization of the territory using lapis lazuli ore
@@ -27,6 +28,7 @@ public final class Pottullo extends JavaPlugin {
         saveDefaultConfig();
         privateZoneConfig = new PrivateZoneConfig(this);
         setSystemPD(getConfig().getInt("radius", 7));
+        setSystemLanguage(getConfig().getString("language", "en"));
 
         Objects.requireNonNull(getCommand("pz")).setExecutor(new PottulloCommand(this));
 

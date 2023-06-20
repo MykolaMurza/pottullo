@@ -4,6 +4,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import ua.mykolamurza.pottullo.Pottullo;
 
+import static ua.mykolamurza.pottullo.config.LocalizationConfig.getBundledText;
+
 /**
  * @author Mykola Murza
  */
@@ -11,7 +13,7 @@ public class RemovePrivatizationZoneCommand extends PottulloSubCommand {
     private final Pottullo plugin;
 
     public RemovePrivatizationZoneCommand(Pottullo plugin) {
-        super("/pz remove", "Remove your PZ.");
+        super("/pz remove", getBundledText("command.description.remove"));
         this.plugin = plugin;
     }
 
@@ -22,6 +24,10 @@ public class RemovePrivatizationZoneCommand extends PottulloSubCommand {
             return;
         }
 
-        plugin.getPrivateZoneConfig().removePrivatizationZone(player);
+        player.sendMessage(
+                plugin.getPrivateZoneConfig().removePrivatizationZone(player)
+                        ? getBundledText("command.remove.removed")
+                        : getBundledText("command.common.dont-own-zone")
+        );
     }
 }

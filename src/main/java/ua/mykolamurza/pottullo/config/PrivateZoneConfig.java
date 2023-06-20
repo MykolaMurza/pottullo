@@ -71,15 +71,15 @@ public class PrivateZoneConfig {
         saveConfig();
     }
 
-    public synchronized void removePrivatizationZone(Player player) {
+    public synchronized boolean removePrivatizationZone(Player player) {
         String path = player.getUniqueId().toString();
         if (config.contains(path)) {
             config.set(path, null);
             saveConfig();
-            player.sendMessage("Your private zone was removed.");
-        } else {
-            player.sendMessage("Only private zone owner able to remove zone.");
+            return true;
         }
+
+        return false;
     }
 
     public PrivatizationZone getPrivatizationZone(Player player) {

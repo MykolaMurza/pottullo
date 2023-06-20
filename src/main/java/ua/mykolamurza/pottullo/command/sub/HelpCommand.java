@@ -7,26 +7,28 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
+import static ua.mykolamurza.pottullo.config.LocalizationConfig.getBundledText;
+
 /**
  * @author Mykola Murza
  */
 public class HelpCommand extends PottulloSubCommand {
 
     public HelpCommand() {
-        super("/pz help", "Provides this list of commands.");
+        super("/pz help", getBundledText("command.description.help"));
     }
 
     public void handleCommand(CommandSender sender, List<PottulloSubCommand> commands) {
-        sender.sendMessage(Component.text("The POTTULLO private zone (/pz) commands:", NamedTextColor.AQUA));
+        sender.sendMessage(Component.text(getBundledText("command.help.title"), NamedTextColor.AQUA));
         for (PottulloSubCommand subCommand : commands) {
             Component message = Component.text(subCommand.getUsage(), NamedTextColor.GOLD, TextDecoration.BOLD)
-                    .append(Component.text(" - " + subCommand.getDescription())
+                    .append(Component.text(": " + subCommand.getDescription())
                             .color(NamedTextColor.WHITE)
                             .decoration(TextDecoration.BOLD, false));
             sender.sendMessage(message);
         }
-        sender.sendMessage(Component.text("To create a private zone, set the required block (lapis lazuli " +
-                "ore block) and type the `/pz accept` command.", NamedTextColor.GRAY, TextDecoration.ITALIC));
+        sender.sendMessage(Component.text(getBundledText("command.help.guide"),
+                NamedTextColor.GRAY, TextDecoration.ITALIC));
     }
 
     @Override

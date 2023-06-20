@@ -11,7 +11,7 @@ import ua.mykolamurza.pottullo.model.PrivatizationZone;
 import java.util.List;
 import java.util.Set;
 
-import static ua.mykolamurza.pottullo.config.Vars.getSystemPD;
+import static ua.mykolamurza.pottullo.config.PrivatizationDistanceConfig.getSystemPD;
 
 /**
  * @author Mykola Murza

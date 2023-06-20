@@ -5,6 +5,8 @@ import org.bukkit.entity.Player;
 import ua.mykolamurza.pottullo.Pottullo;
 import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
+import static ua.mykolamurza.pottullo.config.LocalizationConfig.getBundledText;
+
 /**
  * @author Mykola Murza
  */
@@ -12,7 +14,7 @@ public class ResidentsListPrivateZoneCommand extends PottulloSubCommand {
     private final Pottullo plugin;
 
     public ResidentsListPrivateZoneCommand(Pottullo plugin) {
-        super("/pz residents", "Get a list of residents.");
+        super("/pz residents", getBundledText("command.description.residents"));
         this.plugin = plugin;
     }
 
@@ -25,16 +27,16 @@ public class ResidentsListPrivateZoneCommand extends PottulloSubCommand {
 
         PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZone(player);
         if (zone == null) {
-            player.sendMessage("You don't own a private zone.");
+            player.sendMessage(getBundledText("command.common.dont-own-zone"));
             return;
         }
 
         if (zone.getResidents().isEmpty()) {
-            player.sendMessage("There are no residents in your private zone.");
+            player.sendMessage(getBundledText("command.residents.no-res"));
             return;
         }
 
         String residentsList = String.join(", ", zone.getResidentsNames());
-        player.sendMessage("Residents of your private zone: " + residentsList);
+        player.sendMessage(getBundledText("command.residents.list-title") + residentsList);
     }
 }

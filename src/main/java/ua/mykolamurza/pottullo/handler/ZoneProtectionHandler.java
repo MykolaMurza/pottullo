@@ -26,6 +26,7 @@ import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
 import java.util.List;
 
+import static ua.mykolamurza.pottullo.config.LocalizationConfig.getBundledText;
 import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.*;
 import static ua.mykolamurza.pottullo.handler.util.Vars.RARE_PASSIVE_MOBS;
 import static ua.mykolamurza.pottullo.handler.util.Vars.TYPES_TO_HANDLE_ON_INTERACT;
@@ -50,9 +51,10 @@ public class ZoneProtectionHandler implements Listener {
         if (zone != null) {
             if (isItPrivatizationBlock(zone, block) && !zone.getOwner().equals(player.getName())) {
                 event.setCancelled(true);
-                player.sendMessage("Only private zone owner able to break privatization block.");
+                player.sendMessage(getBundledText("no-rights-to-break-a-privatization-block"));
             } else {
-                checkPlayerHasPermissionsAndSendMessageIfNot(event, player, zone, "You can't build here.");
+                checkPlayerHasPermissionsAndSendMessageIfNot(
+                        event, player, zone, getBundledText("no-rights-to-build"));
             }
         }
     }
@@ -61,7 +63,8 @@ public class ZoneProtectionHandler implements Listener {
     public void onBlockPlace(BlockPlaceEvent event) {
         PrivatizationZone zone = plugin.getPrivateZoneConfig()
                 .getPrivatizationZoneAt(event.getBlock().getLocation());
-        checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone, "You can't build here.");
+        checkPlayerHasPermissionsAndSendMessageIfNot(
+                event, event.getPlayer(), zone, getBundledText("no-rights-to-build"));
     }
 
     @EventHandler
@@ -77,8 +80,8 @@ public class ZoneProtectionHandler implements Listener {
         }
 
         PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(block.getLocation());
-        checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
-                "You can't interact with items or entities in this private zone.");
+        checkPlayerHasPermissionsAndSendMessageIfNot(
+                event, event.getPlayer(), zone, getBundledText("no-rights-to-interact"));
     }
 
     @EventHandler
@@ -89,8 +92,8 @@ public class ZoneProtectionHandler implements Listener {
 
         PrivatizationZone zone = plugin.getPrivateZoneConfig()
                 .getPrivatizationZoneAt(event.getRightClicked().getLocation());
-        checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
-                "You can't interact with items or entities in this private zone.");
+        checkPlayerHasPermissionsAndSendMessageIfNot(
+                event, event.getPlayer(), zone, getBundledText("no-rights-to-interact"));
     }
 
     @EventHandler
@@ -98,8 +101,8 @@ public class ZoneProtectionHandler implements Listener {
         if (TYPES_TO_HANDLE_ON_INTERACT.contains(event.getRightClicked().getType())) {
             PrivatizationZone zone = plugin.getPrivateZoneConfig()
                     .getPrivatizationZoneAt(event.getRightClicked().getLocation());
-            checkPlayerHasPermissionsAndSendMessageIfNot(event, event.getPlayer(), zone,
-                    "You can't interact with items or entities in this private zone.");
+            checkPlayerHasPermissionsAndSendMessageIfNot(
+                    event, event.getPlayer(), zone, getBundledText("no-rights-to-interact"));
         }
     }
 
@@ -138,15 +141,15 @@ public class ZoneProtectionHandler implements Listener {
                 return; // PVP is ON
             }
 
-            checkPlayerHasPermissionsAndSendMessageIfNot(event, player, zone,
-                    "You can't interact with items or entities in this private zone.");
+            checkPlayerHasPermissionsAndSendMessageIfNot(
+                    event, player, zone, getBundledText("no-rights-to-interact"));
         }
 
         if (damager instanceof Projectile projectile && projectile.getShooter() instanceof Player player) {
             PrivatizationZone zone = plugin.getPrivateZoneConfig().getPrivatizationZoneAt(entity.getLocation());
 
-            checkPlayerHasPermissionsAndSendMessageIfNot(event, player, zone,
-                    "You can't interact with items or entities in this private zone.");
+            checkPlayerHasPermissionsAndSendMessageIfNot(
+                    event, player, zone, getBundledText("no-rights-to-interact"));
         }
 
         if (isInstanceOfAny(entity, RARE_PASSIVE_MOBS) || !entity.getScoreboardTags().isEmpty()) {
@@ -162,8 +165,8 @@ public class ZoneProtectionHandler implements Listener {
 
         // On player break
         if (remover instanceof Player player) {
-            checkPlayerHasPermissionsAndSendMessageIfNot(event, player, zone,
-                    "You can't interact with items or entities in this private zone.");
+            checkPlayerHasPermissionsAndSendMessageIfNot(
+                    event, player, zone, getBundledText("no-rights-to-interact"));
         }
 
         // On projectile break (arrow, fireball, snowball etc.)
@@ -172,7 +175,8 @@ public class ZoneProtectionHandler implements Listener {
 
             ProjectileSource shooter = projectile.getShooter();
             if (shooter instanceof Player player) {
-                checkPlayerHasPermissionsAndSendMessageIfNot(event, player, zone, "Don't even try to brake this!");
+                checkPlayerHasPermissionsAndSendMessageIfNot(
+                        event, player, zone, getBundledText("no-rights-to-destroy"));
             }
         }
 
