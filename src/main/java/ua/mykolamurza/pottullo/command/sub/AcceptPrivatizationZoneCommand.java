@@ -1,5 +1,8 @@
 package ua.mykolamurza.pottullo.command.sub;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import ua.mykolamurza.pottullo.Pottullo;
@@ -34,7 +37,8 @@ public class AcceptPrivatizationZoneCommand extends PottulloSubCommand {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                player.sendMessage(getBundledText("command.common.unknown-error"));
+                player.sendMessage(Component.text(
+                        getBundledText("command.common.unknown-error"), NamedTextColor.RED, TextDecoration.BOLD));
             }
         } else {
             player.sendMessage(getBundledText("command.accept.put-block-before"));
