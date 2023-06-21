@@ -1,5 +1,4 @@
 # Pottullo - A Minecraft Privatization Plugin
-Privatization of the territory using lapis lazuli ore
 
 ## Overview
 
