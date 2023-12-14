@@ -36,9 +36,9 @@ public class AcceptPrivatizationZoneCommand extends PottulloSubCommand {
                     Storage.delete(player);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
                 player.sendMessage(Component.text(
                         getBundledText("command.common.unknown-error"), NamedTextColor.RED, TextDecoration.BOLD));
+                plugin.getLogger().severe("Error occurred on `/pz accept` for player " + player.getName() + "!");
             }
         } else {
             player.sendMessage(getBundledText("command.accept.put-block-before"));

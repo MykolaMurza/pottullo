@@ -146,7 +146,7 @@ public class PrivateZoneConfig {
                     return;
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                plugin.getLogger().severe("Could not create zones.yml!");
                 return;
             }
         }
@@ -156,7 +156,6 @@ public class PrivateZoneConfig {
             config.load(zonesFile);
         } catch (IOException | InvalidConfigurationException e) {
             plugin.getLogger().severe("Could not load zones.yml!");
-            e.printStackTrace();
         }
     }
 
@@ -184,7 +183,6 @@ public class PrivateZoneConfig {
             config.save(zonesFile);
         } catch (IOException e) {
             plugin.getLogger().severe("Could not save private zones data to file!");
-            e.printStackTrace();
             return false;
         }
 
