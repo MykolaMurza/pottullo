@@ -25,14 +25,23 @@ import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.isItPl
 public class LapisLazuliHandler implements Listener {
     private final Pottullo plugin;
     private final List<Material> blocks;
+    private final List<Material> microBlocks;
 
-    public LapisLazuliHandler(List<?> blocks, Pottullo plugin) {
+    public LapisLazuliHandler(List<?> blocks, List<?> microBlocks, Pottullo plugin) {
         this.plugin = plugin;
+
         if (blocks.isEmpty()) {
             this.blocks = List.of(Material.LAPIS_ORE, Material.DEEPSLATE_LAPIS_ORE);
         } else {
             this.blocks = convert(blocks).stream().map(Material::getMaterial).toList();
             Bukkit.getLogger().info("Pottullo set as target blocks next list: " + this.blocks);
+        }
+
+        if (microBlocks.isEmpty()) {
+            this.microBlocks = new ArrayList<>(); // No default blocks for this list
+        } else {
+            this.microBlocks = convert(microBlocks).stream().map(Material::getMaterial).toList();
+            Bukkit.getLogger().info("Pottullo set as target micro-blocks next list: " + this.microBlocks);
         }
     }
 
@@ -41,12 +50,14 @@ public class LapisLazuliHandler implements Listener {
         Block block = event.getBlock();
         Player player = event.getPlayer();
 
-        if (!blocks.contains(block.getType())) {
+        boolean isCommon = blocks.contains(block.getType());
+        boolean isMicro = microBlocks.contains(block.getType());
+        if (!isCommon && !isMicro) {
             return;
         }
 
         PrivatizationZone zone = new PrivatizationZone(
-                block.getWorld().getName(), player.getName(), block.getX(), block.getY(), block.getZ());
+                block.getWorld().getName(), player.getName(), block.getX(), block.getY(), block.getZ(), isMicro);
         Storage.add(player, zone);
         player.sendMessage(getBundledText("privatization-started"));
     }

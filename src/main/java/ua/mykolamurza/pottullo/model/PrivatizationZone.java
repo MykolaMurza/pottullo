@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static ua.mykolamurza.pottullo.config.PrivatizationDistanceConfig.getSystemPD;
+import static ua.mykolamurza.pottullo.config.PrivatizationDistanceConfig.getPrivatizationDistance;
 
 public class PrivatizationZone {
     private final String world;
@@ -17,10 +17,11 @@ public class PrivatizationZone {
     private final int toY;
     private final int fromZ;
     private final int toZ;
+    private final boolean isMicro;
     private List<String> residents;
 
-    public PrivatizationZone(String world, String owner, int x, int y, int z) {
-        int radius = getSystemPD();
+    public PrivatizationZone(String world, String owner, int x, int y, int z, boolean isMicro) {
+        int radius = getPrivatizationDistance(isMicro);
         this.world = world;
         this.owner = owner;
         this.fromX = (x - radius);
@@ -29,10 +30,11 @@ public class PrivatizationZone {
         this.toY = (y + radius);
         this.fromZ = (z - radius);
         this.toZ = (z + radius);
+        this.isMicro = isMicro;
     }
 
     public PrivatizationZone(String world, String owner, int fromX, int toX, int fromY,
-                             int toY, int fromZ, int toZ, List<String> residents) {
+                             int toY, int fromZ, int toZ, boolean isMicro, List<String> residents) {
         this.world = world;
         this.owner = owner;
         this.fromX = fromX;
@@ -41,6 +43,7 @@ public class PrivatizationZone {
         this.toY = toY;
         this.fromZ = fromZ;
         this.toZ = toZ;
+        this.isMicro = isMicro;
         this.residents = residents;
     }
 
@@ -74,6 +77,10 @@ public class PrivatizationZone {
 
     public int getToZ() {
         return toZ;
+    }
+
+    public boolean isMicro() {
+        return isMicro;
     }
 
     public void addResident(UUID playerId) {

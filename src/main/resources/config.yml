@@ -3,10 +3,19 @@
 # uk - Ukrainian
 language: 'en'
 
-# Choose blocks to make them privatization blocks.
+# Choose blocks to enable privatization with them.
+# The `blocks` can create a common private zone with `radius`x`radius` size.
+# The `blocks` have a default value - lapis lazuli ores.
+# The `micro-block` can create a micro private with `micro-radius`x`micro-radius` size.
+# There are no default blocks for `micro-block`. Leave an empty list if you want to turn off this feature.
 blocks:
   - LAPIS_ORE
   - DEEPSLATE_LAPIS_ORE
+micro-blocks:
+  - DIAMOND_BLOCK
+  - EMERALD_BLOCK
 
-# Set the radius of private from the privatization block.
+# Set the radius of private from the privatization block (blocks list).
 radius: 7
+# Set the radius of private from the micro privatization block (micro-blocks list).
+micro-radius: 2

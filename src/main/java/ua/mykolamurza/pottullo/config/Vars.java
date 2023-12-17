@@ -10,4 +10,5 @@ public class Vars {
     public static final String TO_Y_KEY = ".to.y";
     public static final String FROM_Z_KEY = ".from.z";
     public static final String TO_Z_KEY = ".to.z";
+    public static final String IS_MICRO_KEY = ".isMicro";
 }

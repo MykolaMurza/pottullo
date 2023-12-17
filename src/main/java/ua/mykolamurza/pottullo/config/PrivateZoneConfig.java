@@ -58,6 +58,7 @@ public class PrivateZoneConfig {
         config.set(path + TO_Y_KEY, zone.getToY());
         config.set(path + FROM_Z_KEY, zone.getFromZ());
         config.set(path + TO_Z_KEY, zone.getToZ());
+        config.set(path + IS_MICRO_KEY, zone.isMicro());
         config.set(path + RESIDENTS_KEY, new ArrayList<>());
 
         return saveConfig();
@@ -93,7 +94,7 @@ public class PrivateZoneConfig {
                 config.getInt(path + FROM_X_KEY), config.getInt(path + TO_X_KEY),
                 config.getInt(path + FROM_Y_KEY), config.getInt(path + TO_Y_KEY),
                 config.getInt(path + FROM_Z_KEY), config.getInt(path + TO_Z_KEY),
-                config.getStringList(path + RESIDENTS_KEY)
+                config.getBoolean(path + IS_MICRO_KEY), config.getStringList(path + RESIDENTS_KEY)
         );
     }
 
@@ -103,26 +104,28 @@ public class PrivateZoneConfig {
 
         for (String zonePlayerKey : zones.getKeys(false)) {
             String world = config.getString(zonePlayerKey + WORLD_KEY);
-            String owner = config.getString(zonePlayerKey + OWNER_KEY);
 
-            // Check if the world matches
             if (location.getWorld().getName().equals(world)) {
-                int fromX = config.getInt(zonePlayerKey + FROM_X_KEY);
-                int toX = config.getInt(zonePlayerKey + TO_X_KEY);
-                int fromY = config.getInt(zonePlayerKey + FROM_Y_KEY);
-                int toY = config.getInt(zonePlayerKey + TO_Y_KEY);
-                int fromZ = config.getInt(zonePlayerKey + FROM_Z_KEY);
-                int toZ = config.getInt(zonePlayerKey + TO_Z_KEY);
-                int locationX = (int) Math.floor(location.getX());
-                int locationY = (int) Math.floor(location.getY());
-                int locationZ = (int) Math.floor(location.getZ());
+                final int locationX = (int) Math.floor(location.getX());
+                final int fromX = config.getInt(zonePlayerKey + FROM_X_KEY);
+                final int toX = config.getInt(zonePlayerKey + TO_X_KEY);
+                if (!isCurrentZonePresentInRange(locationX, fromX, toX)) continue;
 
-                if (locationX >= Math.min(fromX, toX) && locationX <= Math.max(fromX, toX)
-                        && locationY >= Math.min(fromY, toY) && locationY <= Math.max(fromY, toY)
-                        && locationZ >= Math.min(fromZ, toZ) && locationZ <= Math.max(fromZ, toZ)) {
-                    List<String> residents = config.getStringList(zonePlayerKey + RESIDENTS_KEY);
-                    return new PrivatizationZone(world, owner, fromX, toX, fromY, toY, fromZ, toZ, residents);
-                }
+                final int locationY = (int) Math.floor(location.getY());
+                final int fromY = config.getInt(zonePlayerKey + FROM_Y_KEY);
+                final int toY = config.getInt(zonePlayerKey + TO_Y_KEY);
+                if (!isCurrentZonePresentInRange(locationY, fromY, toY)) continue;
+
+                final int locationZ = (int) Math.floor(location.getZ());
+                final int fromZ = config.getInt(zonePlayerKey + FROM_Z_KEY);
+                final int toZ = config.getInt(zonePlayerKey + TO_Z_KEY);
+                if (!isCurrentZonePresentInRange(locationZ, fromZ, toZ)) continue;
+
+                String owner = config.getString(zonePlayerKey + OWNER_KEY);
+                boolean isMicro = config.getBoolean(zonePlayerKey + IS_MICRO_KEY);
+                List<String> residents = config.getStringList(zonePlayerKey + RESIDENTS_KEY);
+
+                return new PrivatizationZone(world, owner, fromX, toX, fromY, toY, fromZ, toZ, isMicro, residents);
             }
         }
 
@@ -187,5 +190,9 @@ public class PrivateZoneConfig {
         }
 
         return true;
+    }
+
+    private boolean isCurrentZonePresentInRange(int current, int min, int max) {
+        return current >= Math.min(min, max) && current <= Math.max(min, max);
     }
 }
