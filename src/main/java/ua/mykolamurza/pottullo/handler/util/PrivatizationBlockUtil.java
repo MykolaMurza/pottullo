@@ -11,7 +11,7 @@ import ua.mykolamurza.pottullo.model.PrivatizationZone;
 import java.util.List;
 import java.util.Set;
 
-import static ua.mykolamurza.pottullo.config.PrivatizationDistanceConfig.getSystemPD;
+import static ua.mykolamurza.pottullo.config.PrivatizationDistanceConfig.getPrivatizationDistance;
 
 /**
  * @author Mykola Murza
@@ -32,7 +32,7 @@ public class PrivatizationBlockUtil {
             return false;
         }
 
-        int radius = getSystemPD();
+        int radius = getPrivatizationDistance(zone.isMicro());
 
         return zone.getWorld().equals(block.getWorld().getName())
                 && block.getX() == zone.getFromX() + radius
