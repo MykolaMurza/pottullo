@@ -10,7 +10,7 @@ import ua.mykolamurza.pottullo.command.sub.*;
 import java.util.List;
 import java.util.Locale;
 
-import static ua.mykolamurza.pottullo.config.LocalizationConfig.getBundledText;
+import static ua.mykolamurza.pottullo.configuration.LocalizationConfig.getBundledText;
 
 /**
  * @author Mykola Murza

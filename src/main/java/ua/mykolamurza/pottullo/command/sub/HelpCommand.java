@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-import static ua.mykolamurza.pottullo.config.LocalizationConfig.getBundledText;
+import static ua.mykolamurza.pottullo.configuration.LocalizationConfig.getBundledText;
 
 /**
  * @author Mykola Murza

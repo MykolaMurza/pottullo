@@ -1,4 +1,4 @@
-package ua.mykolamurza.pottullo.config;
+package ua.mykolamurza.pottullo.configuration;
 
 public class PrivatizationDistanceConfig {
     private static int privatizationDistance = 7;

@@ -1,4 +1,4 @@
-package ua.mykolamurza.pottullo.config;
+package ua.mykolamurza.pottullo.configuration;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ua.mykolamurza.pottullo.config.Vars.*;
+import static ua.mykolamurza.pottullo.configuration.Vars.*;
 
 /**
  * @author Mykola Murza
@@ -161,7 +161,6 @@ public class PrivateZoneConfig {
             plugin.getLogger().severe("Could not load zones.yml!");
         }
     }
-
 
     private boolean doesCollideWithExistingPrivatizationZones(PrivatizationZone newZone) {
         for (String key : config.getKeys(false)) {

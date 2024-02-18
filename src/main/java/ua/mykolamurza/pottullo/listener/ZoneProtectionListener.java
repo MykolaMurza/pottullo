@@ -1,4 +1,4 @@
-package ua.mykolamurza.pottullo.handler;
+package ua.mykolamurza.pottullo.listener;
 
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -26,18 +26,18 @@ import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
 import java.util.List;
 
-import static ua.mykolamurza.pottullo.config.LocalizationConfig.getBundledText;
-import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.*;
-import static ua.mykolamurza.pottullo.handler.util.Vars.RARE_PASSIVE_MOBS;
-import static ua.mykolamurza.pottullo.handler.util.Vars.TYPES_TO_HANDLE_ON_INTERACT;
+import static ua.mykolamurza.pottullo.configuration.LocalizationConfig.getBundledText;
+import static ua.mykolamurza.pottullo.util.PrivatizationBlockUtil.*;
+import static ua.mykolamurza.pottullo.util.Vars.RARE_PASSIVE_MOBS;
+import static ua.mykolamurza.pottullo.util.Vars.TYPES_TO_HANDLE_ON_INTERACT;
 
 /**
  * @author Mykola Murza
  */
-public class ZoneProtectionHandler implements Listener {
+public class ZoneProtectionListener implements Listener {
     private final Pottullo plugin;
 
-    public ZoneProtectionHandler(Pottullo plugin) {
+    public ZoneProtectionListener(Pottullo plugin) {
         this.plugin = plugin;
     }
 

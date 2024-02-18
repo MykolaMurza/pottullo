@@ -1,4 +1,4 @@
-package ua.mykolamurza.pottullo.handler;
+package ua.mykolamurza.pottullo.listener;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,18 +16,18 @@ import ua.mykolamurza.pottullo.model.Storage;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ua.mykolamurza.pottullo.config.LocalizationConfig.getBundledText;
-import static ua.mykolamurza.pottullo.handler.util.PrivatizationBlockUtil.isItPlayersPrivatizationBlock;
+import static ua.mykolamurza.pottullo.configuration.LocalizationConfig.getBundledText;
+import static ua.mykolamurza.pottullo.util.PrivatizationBlockUtil.isItPlayersPrivatizationBlock;
 
 /**
  * @author Mykola Murza
  */
-public class LapisLazuliHandler implements Listener {
+public class LapisLazuliListener implements Listener {
     private final Pottullo plugin;
     private final List<Material> blocks;
     private final List<Material> microBlocks;
 
-    public LapisLazuliHandler(List<?> blocks, List<?> microBlocks, Pottullo plugin) {
+    public LapisLazuliListener(List<?> blocks, List<?> microBlocks, Pottullo plugin) {
         this.plugin = plugin;
 
         if (blocks.isEmpty()) {

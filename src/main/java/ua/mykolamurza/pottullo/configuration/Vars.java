@@ -1,4 +1,4 @@
-package ua.mykolamurza.pottullo.config;
+package ua.mykolamurza.pottullo.configuration;
 
 public class Vars {
     public static final String WORLD_KEY = ".world";

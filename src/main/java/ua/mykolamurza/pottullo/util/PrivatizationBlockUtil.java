@@ -1,4 +1,4 @@
-package ua.mykolamurza.pottullo.handler.util;
+package ua.mykolamurza.pottullo.util;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -11,7 +11,7 @@ import ua.mykolamurza.pottullo.model.PrivatizationZone;
 import java.util.List;
 import java.util.Set;
 
-import static ua.mykolamurza.pottullo.config.PrivatizationDistanceConfig.getPrivatizationDistance;
+import static ua.mykolamurza.pottullo.configuration.PrivatizationDistanceConfig.getPrivatizationDistance;
 
 /**
  * @author Mykola Murza

@@ -1,4 +1,4 @@
-package ua.mykolamurza.pottullo.handler.util;
+package ua.mykolamurza.pottullo.util;
 
 import org.bukkit.entity.*;
 

@@ -1,4 +1,4 @@
-package ua.mykolamurza.pottullo.config;
+package ua.mykolamurza.pottullo.configuration;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

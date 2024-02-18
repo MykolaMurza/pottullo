@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import ua.mykolamurza.pottullo.Pottullo;
 import ua.mykolamurza.pottullo.model.PrivatizationZone;
 
-import static ua.mykolamurza.pottullo.config.LocalizationConfig.getBundledText;
+import static ua.mykolamurza.pottullo.configuration.LocalizationConfig.getBundledText;
 
 /**
  * @author Mykola Murza
@@ -23,7 +23,7 @@ public class RemoveResidentPrivatizationZoneCommand extends PottulloSubCommand {
     @Override
     public void handleCommand(CommandSender sender, String[] arguments) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("It's funny, but you are just a console. Simulation of a life.");
+            sender.sendMessage("It's funny, but you are just a console - the simulation of a life.");
             return;
         }
 

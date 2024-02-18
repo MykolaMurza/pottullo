@@ -1,20 +1,19 @@
 package ua.mykolamurza.pottullo;
 
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import ua.mykolamurza.pottullo.command.PottulloCommand;
-import ua.mykolamurza.pottullo.config.PrivateZoneConfig;
-import ua.mykolamurza.pottullo.handler.LapisLazuliHandler;
-import ua.mykolamurza.pottullo.handler.ZoneProtectionHandler;
+import ua.mykolamurza.pottullo.configuration.PrivateZoneConfig;
+import ua.mykolamurza.pottullo.listener.LapisLazuliListener;
+import ua.mykolamurza.pottullo.listener.ZoneProtectionListener;
 
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
-import static ua.mykolamurza.pottullo.config.LocalizationConfig.setSystemLanguage;
-import static ua.mykolamurza.pottullo.config.PrivatizationDistanceConfig.setMicroPrivatizationDistance;
-import static ua.mykolamurza.pottullo.config.PrivatizationDistanceConfig.setPrivatizationDistance;
+import static ua.mykolamurza.pottullo.configuration.LocalizationConfig.setSystemLanguage;
+import static ua.mykolamurza.pottullo.configuration.PrivatizationDistanceConfig.setMicroPrivatizationDistance;
+import static ua.mykolamurza.pottullo.configuration.PrivatizationDistanceConfig.setPrivatizationDistance;
 
 /**
  * Privatization of the territory using lapis lazuli ore
@@ -23,11 +22,13 @@ import static ua.mykolamurza.pottullo.config.PrivatizationDistanceConfig.setPriv
  * @version Minecraft 1.20.2
  */
 public final class Pottullo extends JavaPlugin {
+    public static JavaPlugin plugin = null;
     private PrivateZoneConfig privateZoneConfig;
 
     @Override
     public void onEnable() {
-        Bukkit.getLogger().info("Start POTTULLO.");
+        plugin = this;
+
         saveDefaultConfig();
         privateZoneConfig = new PrivateZoneConfig(this);
         setPrivatizationDistance(getConfig().getInt("radius", 7));
@@ -38,12 +39,7 @@ public final class Pottullo extends JavaPlugin {
         Objects.requireNonNull(getCommand("pz")).setExecutor(new PottulloCommand(this));
 
         getServer().getPluginManager().registerEvents(buildLapisLazuliHandler(), this);
-        getServer().getPluginManager().registerEvents(new ZoneProtectionHandler(this), this);
-    }
-
-    @Override
-    public void onDisable() {
-        Bukkit.getLogger().info("Stop POTTULLO.");
+        getServer().getPluginManager().registerEvents(new ZoneProtectionListener(this), this);
     }
 
     public PrivateZoneConfig getPrivateZoneConfig() {
@@ -51,8 +47,8 @@ public final class Pottullo extends JavaPlugin {
     }
 
     @NotNull
-    private LapisLazuliHandler buildLapisLazuliHandler() {
-        return new LapisLazuliHandler(
+    private LapisLazuliListener buildLapisLazuliHandler() {
+        return new LapisLazuliListener(
                 Objects.requireNonNull(getConfig().getList("blocks", new ArrayList<>())),
                 Objects.requireNonNull(getConfig().getList("micro-blocks", new ArrayList<>())), this);
     }
