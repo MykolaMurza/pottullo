@@ -1,4 +1,4 @@
-name: pottullo
+name: Pottullo
 version: '${project.version}'
 main: ua.mykolamurza.pottullo.Pottullo
 api-version: '1.20'

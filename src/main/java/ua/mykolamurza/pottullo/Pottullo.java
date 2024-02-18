@@ -19,7 +19,7 @@ import static ua.mykolamurza.pottullo.configuration.PrivatizationDistanceConfig.
  * Privatization of the territory using lapis lazuli ore
  *
  * @author Mykola Murza
- * @version Minecraft 1.20.2
+ * @version Minecraft 1.20
  */
 public final class Pottullo extends JavaPlugin {
     public static JavaPlugin plugin = null;
